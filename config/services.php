@@ -102,13 +102,6 @@ return [
             'superuser.business.assignments.sync',
             // Accessible businesses for picker
             'list.assigned.businesses',
-            // Category management
-            'category.list',
-            'list.categories',
-            'add.category',
-            'update.category',
-            'delete.category',
-            'setactive.category',
         ],
         'admin' => [
             // User management only (no delete permission)

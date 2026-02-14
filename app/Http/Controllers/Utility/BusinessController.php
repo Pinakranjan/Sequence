@@ -54,17 +54,10 @@ class BusinessController extends Controller
 
         $result = $businesses->map(function ($row) {
             // Eager load if needed, or derive category name via relationship
-            $categoryName = null;
-            if ($row->business_category_id) {
-                $cat = $row->category;
-                $categoryName = $cat ? $cat->name : null;
-            }
             return [
                 'id' => $row->id,
                 'company_code' => $row->company_code,
                 'name' => $row->name,
-                'business_category_id' => $row->business_category_id,
-                'category_name' => $categoryName,
                 'address' => $row->address,
                 'email' => $row->email,
                 'mobile' => $row->mobile,
@@ -159,7 +152,6 @@ class BusinessController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'business_category_id' => 'required|exists:utility_business_categories,id',
             'name' => 'required|string|min:10|max:50',
             'address' => 'required|string|max:500',
             'email' => 'required|email|max:100|unique:utility_company,email',
@@ -172,8 +164,6 @@ class BusinessController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'is_active' => 'nullable|boolean',
         ], [
-            'business_category_id.required' => 'Please select a business category.',
-            'business_category_id.exists' => 'The selected business category is invalid.',
             'name.required' => 'Please enter the business name.',
             'name.string' => 'The business name must be a valid string.',
             'name.min' => 'The business name must be at least 10 characters.',
@@ -211,7 +201,6 @@ class BusinessController extends Controller
             // Normalize casing and formatting
             $data = array_merge($data, [
                 'name' => Str::title(Str::lower($data['name'])),
-                'business_category_id' => (int) $data['business_category_id'],
                 'gstin' => isset($data['gstin']) ? Str::upper($data['gstin']) : null,
                 'pan' => isset($data['pan']) ? Str::upper($data['pan']) : null,
                 'email' => Str::lower($data['email']),
@@ -274,7 +263,6 @@ class BusinessController extends Controller
             $request->all(),
             [
                 'id' => 'required|integer|exists:utility_company,id',
-                'business_category_id' => 'required|exists:utility_business_categories,id',
                 'name' => 'required|string|min:10|max:50',
                 'address' => 'required|string|max:500',
                 'email' => 'required|email|max:100|unique:utility_company,email,' . $business_id,
@@ -286,8 +274,6 @@ class BusinessController extends Controller
                 'is_active' => 'nullable|boolean',
             ],
             [
-                'business_category_id.required' => 'Please select a business category.',
-                'business_category_id.exists' => 'The selected business category is invalid.',
                 'name.required' => 'Please enter the business name.',
                 'name.string' => 'The business name must be a valid string.',
                 'name.min' => 'The business name must be at least 10 characters.',
@@ -340,7 +326,6 @@ class BusinessController extends Controller
         // Prepare new values (excluding image) but don't persist yet; include is_active for accurate dirty check
         $business->fill([
             'name' => Str::title(Str::lower($request->name)),
-            'business_category_id' => (int) $request->business_category_id,
             'address' => $request->address,
             'mobile' => $request->mobile,
             'approved_users' => (int) $request->approved_users,

@@ -7,9 +7,7 @@ use App\Services\LoginHistoryService;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Utility\BusinessController;
 use App\Http\Controllers\Utility\UserController;
-use App\Http\Controllers\Utility\BusinessCategoryController;
 use App\Http\Controllers\Utility\BusinessTermsController;
-use App\Http\Controllers\Utility\ImageBankController;
 
 
 Route::get('/', function () {
@@ -134,14 +132,6 @@ Route::middleware('auth')->group(function () {
             Route::post('/user/forms/save', 'SaveUserPermissions')->name('save.user.permissions');
         });
 
-        Route::controller(BusinessCategoryController::class)->group(function () {
-            Route::get('/categories', 'AllCategories')->name('category.list');
-            Route::get('/categories/list', 'ListCategories')->name('list.categories');
-            Route::post('/category/create', 'AddCategory')->name('add.category');
-            Route::post('/category/update', 'UpdateCategory')->name('update.category');
-            Route::post('/category/delete', 'DeleteCategory')->name('delete.category');
-            Route::post('/category/set-active', 'SetActiveCategory')->name('setactive.category');
-        });
     });
 
     // Terms & Conditions per Business
@@ -160,8 +150,4 @@ Route::middleware('auth')->group(function () {
     });
 
     // Image Bank
-    Route::get('image-bank', [ImageBankController::class, 'index'])->name('admin.imagebank.index');
-    Route::get('image-bank/list', [ImageBankController::class, 'list'])->name('admin.imagebank.list');
-    Route::post('image-bank/upload', [ImageBankController::class, 'upload'])->name('admin.imagebank.upload');
-    Route::post('image-bank/delete', [ImageBankController::class, 'delete'])->name('admin.imagebank.delete');
 });

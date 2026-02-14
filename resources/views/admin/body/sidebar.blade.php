@@ -55,8 +55,7 @@ SEQUENCE APP SIDEBAR - Clean Template
                 {{-- Utility Menu --}}
                 @if($canBusiness || $canUser || $isRootSuperUser)
                     <li class="menu-title" style="margin-top: 15px;">Pages</li>
-                    <li
-                        class="dropdown {{ request()->routeIs('business.register', 'user.register', 'category.list', 'admin.imagebank.*') ? 'active' : '' }}">
+                    <li class="dropdown {{ request()->routeIs('business.register', 'user.register') ? 'active' : '' }}">
                         <a href="javascript:void(0);">
                             <span class="sidebar-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -70,10 +69,6 @@ SEQUENCE APP SIDEBAR - Clean Template
                             <span>Utility</span>
                         </a>
                         <ul class="dropdown-menu">
-                            @if($isRootSuperUser)
-                                <li class="{{ request()->routeIs('category.list') ? 'active' : '' }}"><a
-                                        href="{{ route('category.list') }}"><span class="sidebar-icon"><i
-                            class="fas fa-list"></i></span>Category List</a></li>@endif
                             @if($canBusiness)
                                 <li class="{{ request()->routeIs('business.register') ? 'active' : '' }}"><a
                                         href="{{ route('business.register') }}"><span class="sidebar-icon"><i
@@ -82,10 +77,6 @@ SEQUENCE APP SIDEBAR - Clean Template
                                 <li class="{{ request()->routeIs('user.register') ? 'active' : '' }}"><a
                                         href="{{ route('user.register') }}"><span class="sidebar-icon"><i
                             class="fas fa-users-cog"></i></span>User Register</a></li>@endif
-                            @if($isRootSuperUser)
-                                <li class="{{ request()->routeIs('admin.imagebank.*') ? 'active' : '' }}"><a
-                                        href="{{ route('admin.imagebank.index') }}"><span class="sidebar-icon"><i
-                            class="fas fa-images"></i></span>Image Bank</a></li>@endif
                         </ul>
                     </li>
                 @endif

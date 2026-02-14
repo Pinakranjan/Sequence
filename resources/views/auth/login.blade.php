@@ -67,11 +67,11 @@
 
                         <div class="role-buttons-container p-0 mt-3">
                             <div class="d-flex flex-wrap gap-3 justify-content-between">
-                                <button type="button" class="btn role-btn" data-email="admin@example.com"
+                                <button type="button" class="btn role-btn" data-email="admin@sequence.com"
                                     style="flex: 1 1 calc(33.33% - 0.75rem); color: #F06292; border: 1px solid #F06292; font-weight: 600; height:48px; display:flex; align-items:center; justify-content:center; padding:0 1rem;">{{ __('Super Admin') }}</button>
-                                <button type="button" class="btn role-btn" data-email="admin2@example.com"
+                                <button type="button" class="btn role-btn" data-email="dalmia@sequence.com"
                                     style="flex: 1 1 calc(33.33% - 0.75rem); color: #198754; border: 1px solid #198754; font-weight: 600; height:48px; display:flex; align-items:center; justify-content:center; padding:0 1rem;">{{ __('Admin') }}</button>
-                                <button type="button" class="btn role-btn" data-email="user@example.com"
+                                <button type="button" class="btn role-btn" data-email="manas@sequence.com"
                                     style="flex: 1 1 calc(33.33% - 0.75rem); color: #8c57ff; border: 1px solid #8c57ff; font-weight: 600; height:48px; display:flex; align-items:center; justify-content:center; padding:0 1rem;">{{ __('User') }}</button>
                             </div>
                         </div>
