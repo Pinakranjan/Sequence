@@ -1,0 +1,372 @@
+/* Remove default admin content padding and horizontal gutters globally */
+.content-page {
+  padding: 25px 20px !important;
+}
+
+.content-page .content {
+  padding: 0 !important;
+}
+
+/* Make all containers full-width and remove horizontal padding across admin pages */
+.content-page .container,
+.content-page .container-sm,
+.content-page .container-md,
+.content-page .container-lg,
+.content-page .container-xl,
+.content-page .container-xxl,
+.content-page .container-fluid {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Optional: remove row gutters if you still see side spacing */
+.content-page .row {
+  --bs-gutter-x: 0 !important;
+}
+
+/* DataTables: ensure left border is visible even with responsive/control columns */
+.dataTables_wrapper .table.table-bordered {
+  border-left: 1px solid var(--bs-border-color, #dee2e6) !important;
+  border-right: 1px solid var(--bs-border-color, #dee2e6) !important;
+}
+
+.dataTables_wrapper .table.table-bordered> :not(caption)>*>th:first-child,
+.dataTables_wrapper .table.table-bordered> :not(caption)>*>td:first-child {
+  border-left: 1px solid var(--bs-border-color, #dee2e6) !important;
+}
+
+/* Keep dtr-control column sized enough to render the "+" and border visibly */
+.dataTables_wrapper .table.table-bordered td.dtr-control,
+.dataTables_wrapper .table.table-bordered th.dtr-control {
+  width: 1.75rem;
+  min-width: 1.75rem;
+}
+
+/* DataTables toolbar layout: buttons beside Search on the right */
+.dataTables_wrapper .row:first-child .col.text-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+
+/* Reduce toolbar height/padding */
+.dataTables_wrapper .row:first-child {
+  margin-bottom: 0.25rem !important;
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  margin-bottom: 0 !important;
+}
+
+/* Shrink search input */
+.dataTables_wrapper .dataTables_filter input[type="search"] {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  height: calc(1.5em + 0.5rem + 2px);
+}
+
+/* Export buttons: icon-only, neutral style (no pink bg) */
+.dataTables_wrapper .dt-buttons .btn {
+  background-color: transparent !important;
+  border-color: var(--bs-border-color, #ced4da) !important;
+  color: var(--bs-secondary-color, #6c757d) !important;
+  padding: 0.25rem 0.4rem !important;
+  line-height: 1.2 !important;
+}
+
+.dataTables_wrapper .dt-buttons .btn:hover,
+.dataTables_wrapper .dt-buttons .btn:focus {
+  background-color: var(--bs-light-bg-subtle, #f8f9fa) !important;
+  color: var(--bs-body-color, #212529) !important;
+}
+
+/* Feather icons size inside buttons */
+
+/* -------------------------------------------------------------------------- */
+/* Legacy ERP admin markup compatibility (Front CMS pages)                     */
+/* -------------------------------------------------------------------------- */
+/* Many Front CMS views use non-Bootstrap helper classes like `card-bodys` and
+   spacing helpers like `p-16`. After removing the legacy ERP stylesheet,
+   these helpers should map to Bootstrap-like spacing so the UI matches other
+   admin pages (e.g., /products). */
+
+.card-bodys {
+  padding: var(--bs-card-spacer-y, 1rem) var(--bs-card-spacer-x, 1rem);
+}
+
+/* Common spacing helpers used across Front CMS blades */
+.p-16 {
+  padding: 1rem !important;
+}
+
+.p-16-0 {
+  padding: 1rem 0 !important;
+}
+
+.margin-l-16 {
+  margin-left: 1rem !important;
+}
+
+/* Some views use a fixed-width pills column; keep it responsive */
+.w-280 {
+  width: 280px;
+  max-width: 100%;
+}
+
+.dataTables_wrapper .dt-buttons .btn i {
+  width: 16px;
+  height: 16px;
+}
+
+/* Make feather icons in DataTables toolbar thinner and cleaner */
+.dataTables_wrapper .dt-buttons .btn svg,
+.dataTables_wrapper .dt-buttons .btn i svg {
+  stroke-width: 2 !important;
+  /* thinner strokes */
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Ensure <i data-feather> fallback maintains sizing */
+.dataTables_wrapper .dt-buttons .btn i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make buttons and search align inline nicely */
+.dataTables_wrapper .dt-buttons {
+  order: 1;
+}
+
+.dataTables_wrapper .dataTables_filter {
+  order: 2;
+}
+
+/* On small screens, wrap to two rows: search first (full width), buttons below */
+@media (max-width: 576px) {
+  .dataTables_wrapper .row:first-child .col.text-end {
+    justify-content: stretch;
+  }
+
+  .dataTables_wrapper .dataTables_filter {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.25rem;
+  }
+
+  .dataTables_wrapper .dt-buttons {
+    flex: 1 1 100%;
+    display: flex;
+    gap: 0.4rem;
+    justify-content: flex-end;
+  }
+}
+
+/* Padding for the left top navigation UL in the topbar */
+.topbar-custom .topnav-menu:first-of-type {
+  padding-left: 0.75rem;
+  /* ~12px, provides breathing room on the left */
+}
+
+@media (max-width: 576px) {
+  .topbar-custom .topnav-menu:first-of-type {
+    padding-left: 0.5rem;
+    /* slightly reduced on very small screens */
+  }
+}
+
+/* Card-scoped loading overlay - moved from component to global CSS
+   - Covers entire .card (header + body)
+   - Centers spinner and message
+   - Uses high z-index to appear above card contents
+*/
+.card {
+  /* ensure overlay can position relative to the .card element */
+  position: relative;
+}
+
+.card-loading-overlay {
+  position: absolute;
+  inset: 0;
+  /* top:0; right:0; bottom:0; left:0 */
+  display: none;
+  /* toggled via JS */
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.75);
+  z-index: 1050;
+  /* above typical card content and header */
+  pointer-events: auto;
+  /* block interactions while loading */
+}
+
+.card-loading-overlay .loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.card-loading-overlay .loading-text {
+  font-size: 0.95rem;
+  color: var(--bs-body-color, #212529);
+}
+
+/* Small improvements for reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .card-loading-overlay svg {
+    animation: none !important;
+  }
+}
+
+/* Full-height admin layout for grid pages */
+.content-page,
+.content-page>.content {
+  min-height: 94vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure Syncfusion grid toolbar buttons are always enabled */
+.e-toolbar .e-toolbar-items .e-toolbar-item.e-overlay {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+.e-grid .customcss {
+  background: yellow;
+}
+
+.e-grid .e-toolbar .e-tbar-btn-text,
+.e-grid .e-toolbar .e-toolbar-items .e-toolbar-item .e-tbar-btn-text {
+  display: none;
+}
+
+.e-btn-icon {
+  transition: color 0.3s ease;
+  /* Add smooth transition for color change */
+}
+
+.e-btn-icon.e-delete {
+  color: red !important;
+}
+
+.e-btn-icon.e-circle-check {
+  color: green !important;
+}
+
+.e-btn-icon.e-circle-close {
+  color: red !important;
+  /* content: "\e796"; */
+}
+
+.e-btn-icon.e-delete-row {
+  color: red !important;
+  /* content: "\e796"; */
+}
+
+.e-btn-icon.e-circle-add {
+  color: green !important;
+}
+
+.e-btn-icon.e-export {
+  color: red !important;
+}
+
+.e-btn-icon:hover {
+  color: white !important;
+}
+
+.e-grid .e-fleet {
+  width: 2rem !important;
+  height: 2rem !important;
+  display: inline-flex;
+  margin: 0px !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hide column on small screens */
+@media (max-width: 768px) {
+  .hide-on-small-screen {
+    display: none !important;
+  }
+}
+
+/* Re-enable gutters where explicitly desired */
+/* Usage: wrap a section with .with-gutters to bring back horizontal gaps between columns */
+.with-gutters .row {
+  --bs-gutter-x: 1rem !important;
+  /* matches g-3 horizontally */
+}
+
+.with-gutters .row.g-0 {
+  --bs-gutter-x: 0 !important;
+}
+
+.with-gutters .row.g-1 {
+  --bs-gutter-x: 0.25rem !important;
+}
+
+.with-gutters .row.g-2 {
+  --bs-gutter-x: 0.5rem !important;
+}
+
+.with-gutters .row.g-3 {
+  --bs-gutter-x: 1rem !important;
+}
+
+.with-gutters .row.g-4 {
+  --bs-gutter-x: 1.5rem !important;
+}
+
+.with-gutters .row.g-5 {
+  --bs-gutter-x: 3rem !important;
+}
+
+/* Restore side padding on containers that opt-in to gutters to avoid overflow from row negative margins */
+.with-gutters.container,
+.with-gutters.container-sm,
+.with-gutters.container-md,
+.with-gutters.container-lg,
+.with-gutters.container-xl,
+.with-gutters.container-xxl,
+.with-gutters.container-fluid {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Toolbar Filter button: active state shows blue icon; hover flips icon to white (no background fill change) */
+.e-toolbar .e-tbar-btn.filter-active .e-icons,
+.e-toolbar .e-tbar-btn.filter-active .fa-filter {
+  color: var(--bs-primary) !important;
+}
+
+.e-toolbar .e-tbar-btn.filter-active:hover .e-icons,
+.e-toolbar .e-tbar-btn.filter-active:hover .fa-filter {
+  color: #fff !important;
+}
+
+/* In case ID is applied directly on button */
+#toolbarFilter.filter-active .e-icons,
+#toolbarFilter.filter-active .fa-filter {
+  color: var(--bs-primary) !important;
+}
+
+#toolbarFilter.filter-active:hover .e-icons,
+#toolbarFilter.filter-active:hover .fa-filter {
+  color: #fff !important;
+}

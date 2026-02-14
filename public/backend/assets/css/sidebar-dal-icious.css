@@ -1,0 +1,1531 @@
+/**
+ * Dal-icious style sidebar CSS for bhukkad-central2
+ * Migrated from Dal-icious /assets/css/admin-style.css
+ * 
+ * This file contains sidebar styling to match Dal-icious look and feel
+ */
+
+/* CSS Variables */
+:root {
+    --clr-primary: #ff7a2a;
+    --clr-primary-hover: #e56a20;
+    --clr-white: #ffffff;
+    --clr-text: #5b5b5b;
+    --clr-border: #dadada;
+}
+
+/* Sidebar Container */
+.sidebar-container {
+    position: relative;
+}
+
+/* Header Container Alignment */
+.topbar-custom .container-fluid {
+    height: 100%;
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 100%;
+}
+
+.topbar-custom .d-flex.justify-content-between {
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 100%;
+}
+
+.topbar-custom ul.topnav-menu {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 0 !important;
+    height: 100%;
+}
+
+.topbar-custom .topbar-search {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-bottom: 0;
+}
+
+/* Toggle Button in Header */
+.button-toggle-menu,
+#sidebarToggleBtn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    /* Increased from 40px */
+    height: 50px;
+    /* Increased from 40px */
+    margin: 0 10px 0 0;
+    /* Removing vertical margin as flex handles centering */
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    /* Slightly more rounded */
+    flex-shrink: 0;
+}
+
+.button-toggle-menu:hover,
+#sidebarToggleBtn:hover {
+    background-color: var(--clr-primary);
+}
+
+.button-toggle-menu:hover i,
+#sidebarToggleBtn:hover i {
+    color: var(--clr-white);
+}
+
+.button-toggle-menu i,
+#sidebarToggleBtn i {
+    font-size: 24px;
+    /* Increased icon size */
+    color: #5b5b5b;
+    transition: color 0.3s ease;
+    line-height: 1;
+    /* Center icon vertically */
+    display: flex;
+    /* Ensure flex for centering */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Header Navbar Menu Orange Hover */
+.topbar-custom .topnav-menu .nav-link {
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    margin: 0 5px;
+    /* Remove vertical margin */
+    padding: 0;
+    width: 50px;
+    /* Increased from 40px */
+    height: 50px;
+    /* Increased from 40px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Badge Hover Styles */
+.topbar-custom .topnav-menu .nav-link:hover .badge,
+.topbar-custom .topnav-menu .nav-link:hover .noti-icon-badge {
+    background-color: var(--clr-white) !important;
+    color: var(--clr-primary) !important;
+}
+
+/* User Profile Specific Styles */
+.topbar-custom .topnav-menu .nav-link.nav-user {
+    width: auto !important;
+    height: auto !important;
+    /* Allow height to grow */
+    min-height: 55px;
+    /* Minimum height bigger than others */
+    padding: 8px 15px !important;
+    /* Increased padding */
+    margin: 5px 5px;
+    /* Slightly less margin to account for larger size */
+    flex-direction: column;
+    /* Stack image and badge */
+    gap: 2px;
+}
+
+.topbar-custom .topnav-menu .nav-link.nav-user img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+}
+
+.topbar-custom .topnav-menu .nav-link:hover {
+    color: var(--clr-white) !important;
+    background-color: var(--clr-primary) !important;
+}
+
+.topbar-custom .topnav-menu .nav-link:hover i,
+.topbar-custom .topnav-menu .nav-link:hover svg,
+.topbar-custom .topnav-menu .nav-link:hover .noti-icon {
+    color: var(--clr-white) !important;
+    stroke: var(--clr-white) !important;
+}
+
+/* Topbar Dropdown Hover */
+.topbar-custom .dropdown-menu .dropdown-item:hover,
+.topbar-custom .dropdown-menu .notify-item:hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border-radius: 8px !important;
+}
+
+.topbar-custom .dropdown-menu .dropdown-item,
+.topbar-custom .dropdown-menu .notify-item {
+    margin: 2px 8px !important;
+    width: auto !important;
+    transition: all 0.2s ease;
+}
+
+.topbar-custom .dropdown-menu .dropdown-item:hover i,
+.topbar-custom .dropdown-menu .dropdown-item:hover span,
+.topbar-custom .dropdown-menu .notify-item:hover .notify-details,
+.topbar-custom .dropdown-menu .notify-item:hover small {
+    color: var(--clr-white) !important;
+}
+
+/* Main Sidebar */
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    z-index: 9999 !important;
+    /* Extremely high to be above everything */
+    overflow: hidden;
+    /* Prevent entire sidebar from scrolling */
+    opacity: 1;
+    visibility: visible;
+    background: var(--clr-white);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 1400px) {
+    .side-bar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .side-bar {
+        width: 280px;
+    }
+}
+
+/* Sidebar Logo Section */
+.side-bar-logo {
+    height: 70px;
+    /* Match standard header height */
+    padding: 0 20px;
+    border-bottom: none;
+    background-color: var(--clr-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    /* Remove shadow to eliminate gap */
+    flex-shrink: 0;
+}
+
+.side-bar-logo a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-bar-logo img {
+    max-height: 40px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Logo visibility - default state (expanded) */
+.side-bar-logo .logo-full {
+    display: block;
+}
+
+.side-bar-logo .logo-mini {
+    display: none;
+}
+
+.side-bar-logo .close-btn {
+    background: none;
+    border: none;
+    outline: none;
+    color: #191919;
+    font-size: 20px;
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+    .side-bar-logo .close-btn {
+        display: block;
+    }
+}
+
+/* Scrollbar Styling */
+.side-bar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.side-bar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.side-bar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar Menu Container */
+.side-bar-manu {
+    padding: 0 15px;
+    margin-top: 12px;
+    flex: 1;
+    overflow-y: auto;
+    /* Only menu content scrolls */
+    overflow-x: hidden;
+}
+
+.side-bar-manu>ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Menu Items */
+.side-bar-manu li {
+    position: relative;
+    margin: 5px 0;
+    font-size: 12px;
+    list-style: none;
+}
+
+/* Menu Links */
+.side-bar-manu li>a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: var(--clr-text);
+    border-radius: 4px;
+    z-index: 2;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Icon Styling */
+.sidebar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.sidebar-icon svg {
+    fill: transparent;
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-icon svg path {
+    stroke: var(--clr-text);
+    transition: stroke 0.3s ease;
+}
+
+/* Hover State */
+.side-bar-manu li:hover>a {
+    background-color: var(--clr-primary);
+    color: var(--clr-white) !important;
+    border-radius: 4px;
+}
+
+.side-bar-manu li:hover>a .sidebar-icon svg path {
+    stroke: var(--clr-white);
+}
+
+/* Active State */
+.side-bar-manu li.active>a {
+    background-color: var(--clr-primary);
+    color: var(--clr-white) !important;
+    border-radius: 4px;
+}
+
+.side-bar-manu li.active>a .sidebar-icon svg path {
+    stroke: var(--clr-white);
+}
+
+/* Dropdown Arrow */
+.side-bar-manu .dropdown::before {
+    content: "\f105";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--clr-text);
+    position: absolute;
+    right: 15px;
+    font-size: 14px;
+    display: block;
+    z-index: 3;
+    top: 12px;
+    transition: transform 0.3s ease;
+}
+
+.side-bar-manu li.active.dropdown::before,
+.side-bar-manu li:hover.dropdown::before {
+    color: var(--clr-white);
+}
+
+.side-bar-manu .dropdown.active::before {
+    transform: rotate(90deg);
+}
+
+/* Dropdown Menu (submenu) */
+.side-bar-manu .dropdown-menu {
+    display: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none !important;
+    /* Remove any default box-shadow */
+    position: static !important;
+    transform: none !important;
+}
+
+.side-bar-manu .dropdown.active>.dropdown-menu {
+    display: block;
+}
+
+.side-bar-manu li .dropdown-menu {
+    margin-left: 20px;
+    padding-left: 0;
+    border-left: none;
+}
+
+.side-bar-manu li .dropdown-menu li {
+    margin: 2px 0;
+}
+
+.side-bar-manu li .dropdown-menu li a {
+    color: var(--clr-text);
+    padding: 8px 15px;
+    font-size: 0.85rem;
+}
+
+.side-bar-manu li .dropdown-menu li a.active,
+.side-bar-manu li .dropdown-menu li.active>a {
+    background-color: var(--clr-primary);
+    color: var(--clr-white) !important;
+    border-radius: 4px;
+}
+
+.side-bar-manu li .dropdown-menu li:hover>a {
+    background-color: var(--clr-primary);
+    color: var(--clr-white) !important;
+}
+
+/* FontAwesome icons in sidebar */
+.sidebar-icon i,
+.sidebar-icon .fas,
+.sidebar-icon .far,
+.sidebar-icon .fab {
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    color: inherit;
+}
+
+.side-bar-manu li:hover>a .sidebar-icon i,
+.side-bar-manu li.active>a .sidebar-icon i {
+    color: var(--clr-white);
+}
+
+/* Menu Title/Section Header */
+.side-bar-manu .menu-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    padding: 15px 20px 5px;
+    letter-spacing: 0.5px;
+}
+
+/* Bottom Pinned Actions Section */
+.sidebar-bottom-pinned {
+    margin-top: auto;
+    padding: 15px;
+    border-top: 1px solid var(--clr-border);
+    background-color: var(--clr-white);
+    flex-shrink: 0;
+}
+
+.sidebar-bottom-pinned .sidebar-bottom-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    padding: 0 5px 10px;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-bottom-pinned ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-bottom-pinned li {
+    margin: 5px 0;
+    list-style: none;
+}
+
+.sidebar-bottom-pinned li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: var(--clr-text);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.sidebar-bottom-pinned li a .sidebar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.sidebar-bottom-pinned li a .sidebar-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-bottom-pinned li a .sidebar-icon svg path {
+    stroke: var(--clr-text);
+    transition: stroke 0.3s ease;
+}
+
+.sidebar-bottom-pinned li a:hover,
+.sidebar-bottom-pinned li a:focus,
+.sidebar-bottom-pinned li a:active,
+.sidebar-logout-btn:hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    text-decoration: none !important;
+}
+
+.sidebar-bottom-pinned li a:hover .sidebar-icon svg path,
+.sidebar-bottom-pinned li a:focus .sidebar-icon svg path,
+.sidebar-logout-btn:hover .sidebar-icon svg path {
+    stroke: var(--clr-white) !important;
+}
+
+.sidebar-bottom-pinned li a:hover i,
+.sidebar-bottom-pinned li a:focus i,
+.sidebar-logout-btn:hover i {
+    color: var(--clr-white) !important;
+}
+
+/* Collapsed Sidebar State (for future toggle) */
+.side-bar.collapsed {
+    width: 70px;
+}
+
+.side-bar.collapsed .side-bar-manu li>a span:not(.sidebar-icon) {
+    display: none;
+}
+
+.side-bar.collapsed .dropdown::before {
+    display: none;
+}
+
+.side-bar.collapsed .dropdown-menu {
+    display: none !important;
+}
+
+.side-bar.collapsed:hover {
+    width: 280px;
+}
+
+.side-bar.collapsed:hover .side-bar-manu li>a span {
+    display: inline;
+}
+
+/* Badge for "New" items */
+.side-bar-addon {
+    font-size: 10px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* ================================================================
+   Sidebar Toggle Support (using data-sidebar attribute on body)
+   Minimize behavior - shrinks to 70px showing only icons
+   ================================================================ */
+
+/* Default state - sidebar fully visible */
+body[data-sidebar="default"] .side-bar {
+    width: 280px;
+    transform: translateX(0);
+}
+
+/* Minimized state - sidebar shrinks to 70px showing only icons */
+body[data-sidebar="hidden"] .side-bar {
+    width: 70px;
+    transform: translateX(0);
+}
+
+/* Hide text labels when minimized */
+body[data-sidebar="hidden"] .side-bar .side-bar-manu li>a>span:not(.sidebar-icon) {
+    display: none !important;
+}
+
+/* Hide dropdown arrows when minimized */
+body[data-sidebar="hidden"] .side-bar .side-bar-manu .dropdown::before {
+    opacity: 0 !important;
+}
+
+/* Hide dropdown submenus when minimized */
+body[data-sidebar="hidden"] .side-bar .side-bar-manu .dropdown-menu {
+    display: none !important;
+}
+
+/* Hide menu section titles when minimized */
+body[data-sidebar="hidden"] .side-bar .side-bar-manu .menu-title {
+    display: none !important;
+}
+
+/* Center icons in minimized state */
+body[data-sidebar="hidden"] .side-bar .side-bar-manu li>a {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+body[data-sidebar="hidden"] .side-bar .side-bar-manu li>a .sidebar-icon {
+    margin-right: 0;
+}
+
+/* Swap logo when minimized - show mini logo, hide full logo */
+body[data-sidebar="hidden"] .side-bar .side-bar-logo {
+    padding: 14px 10px;
+    justify-content: center;
+}
+
+body[data-sidebar="hidden"] .side-bar .side-bar-logo .logo-full {
+    display: none !important;
+}
+
+body[data-sidebar="hidden"] .side-bar .side-bar-logo .logo-mini {
+    display: block !important;
+    max-width: 40px;
+    max-height: 40px;
+}
+
+/* Hide bottom pinned section title when minimized */
+body[data-sidebar="hidden"] .side-bar .sidebar-bottom-pinned .sidebar-bottom-title {
+    display: none !important;
+}
+
+/* Center bottom pinned items when minimized */
+body[data-sidebar="hidden"] .side-bar .sidebar-bottom-pinned li a {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+body[data-sidebar="hidden"] .side-bar .sidebar-bottom-pinned li a .sidebar-icon {
+    margin-right: 0;
+}
+
+body[data-sidebar="hidden"] .side-bar .sidebar-bottom-pinned li a span:not(.sidebar-icon) {
+    display: none !important;
+}
+
+/* ================================================================
+   Hover expansion for minimized sidebar
+   ================================================================ */
+
+body[data-sidebar="hidden"] .side-bar:hover {
+    width: 280px;
+}
+
+/* Show text labels on hover */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu li>a>span:not(.sidebar-icon) {
+    display: inline !important;
+}
+
+/* Show dropdown arrows on hover */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu .dropdown::before {
+    opacity: 1 !important;
+}
+
+/* Show dropdown submenus on hover if active */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu .dropdown.active>.dropdown-menu {
+    display: block !important;
+}
+
+/* Show menu section titles on hover */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu .menu-title {
+    display: block !important;
+}
+
+/* Reset icon positioning on hover */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu li>a {
+    justify-content: flex-start;
+    padding: 10px 20px;
+}
+
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-manu li>a .sidebar-icon {
+    margin-right: 10px;
+}
+
+/* Reset logo on hover - swap back to full logo */
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-logo {
+    padding: 0 20px;
+    justify-content: center;
+}
+
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-logo .logo-full {
+    display: block !important;
+}
+
+body[data-sidebar="hidden"] .side-bar:hover .side-bar-logo .logo-mini {
+    display: none !important;
+}
+
+/* Show bottom pinned section title on hover */
+body[data-sidebar="hidden"] .side-bar:hover .sidebar-bottom-pinned .sidebar-bottom-title {
+    display: block !important;
+}
+
+/* Reset bottom pinned items on hover */
+body[data-sidebar="hidden"] .side-bar:hover .sidebar-bottom-pinned li a {
+    justify-content: flex-start;
+    padding: 10px 20px;
+}
+
+body[data-sidebar="hidden"] .side-bar:hover .sidebar-bottom-pinned li a .sidebar-icon {
+    margin-right: 10px;
+}
+
+body[data-sidebar="hidden"] .side-bar:hover .sidebar-bottom-pinned li a span:not(.sidebar-icon) {
+    display: inline !important;
+}
+
+/* ================================================================
+   Content page and topbar adjustments
+   ================================================================ */
+
+/* Content page margin adjustment */
+body[data-sidebar="default"] .content-page {
+    margin-left: 280px !important;
+}
+
+body[data-sidebar="hidden"] .content-page {
+    margin-left: 70px !important;
+}
+
+/* Topbar adjustment - use left position for proper alignment */
+body[data-sidebar="default"] .topbar-custom {
+    left: 280px !important;
+    right: 0;
+    margin-left: 0 !important;
+    width: auto !important;
+}
+
+body[data-sidebar="hidden"] .topbar-custom {
+    left: 70px !important;
+    right: 0;
+    margin-left: 0 !important;
+    width: auto !important;
+}
+
+/* Footer - static positioning, flows with content */
+/* Footer - static positioning, flows with content */
+.footer {
+    position: relative !important;
+    background: transparent !important;
+    text-align: center;
+    padding: 5px 15px !important;
+    /* Minimal symmetric padding */
+    width: 100% !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Ensure topbar is positioned correctly */
+.topbar-custom {
+    position: fixed !important;
+    top: 0;
+    left: 280px;
+    right: 0;
+    z-index: 50;
+}
+
+/* Make topbar container flush to left edge */
+.topbar-custom .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 100%;
+}
+
+@media (min-width: 1400px) {
+    body[data-sidebar="default"] .content-page {
+        margin-left: 280px !important;
+    }
+
+    body[data-sidebar="default"] .topbar-custom {
+        left: 280px !important;
+    }
+
+    .topbar-custom {
+        left: 280px;
+    }
+
+    .side-bar {
+        width: 280px;
+    }
+
+    /* Keep minimized sidebar at 70px regardless of screen size */
+    body[data-sidebar="hidden"] .side-bar {
+        width: 70px;
+    }
+
+    body[data-sidebar="hidden"] .side-bar:hover {
+        width: 280px;
+    }
+
+    body[data-sidebar="hidden"] .content-page {
+        margin-left: 70px !important;
+    }
+
+    body[data-sidebar="hidden"] .topbar-custom {
+        left: 70px !important;
+    }
+}
+
+/* Smooth transition for sidebar */
+.side-bar {
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+/* Base transitions */
+.topbar-custom {
+    transition: left 0.3s ease !important;
+}
+
+.content-page {
+    transition: margin-left 0.3s ease !important;
+    padding-bottom: 0px !important;
+    /* Remove bottom padding to fix gap */
+}
+
+/* Mobile - sidebar overlay (keep full hide on mobile for better UX) */
+@media (max-width: 991.98px) {
+    body[data-sidebar="default"] .side-bar {
+        width: 280px;
+        transform: translateX(0);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    body[data-sidebar="hidden"] .side-bar {
+        width: 280px;
+        transform: translateX(-100%);
+    }
+
+    body[data-sidebar="default"] .content-page,
+    body[data-sidebar="hidden"] .content-page {
+        margin-left: 0 !important;
+    }
+
+    body[data-sidebar="default"] .topbar-custom,
+    body[data-sidebar="hidden"] .topbar-custom {
+        left: 0 !important;
+    }
+
+    .topbar-custom {
+        left: 0 !important;
+    }
+
+    .side-bar-logo .close-btn {
+        display: block;
+    }
+}
+
+/* ================================================================
+   Card Layout Fix - Minimize gap between card and footer
+   ================================================================ */
+
+/* Card fills available space in content-page */
+.content-page>.card {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 0;
+}
+
+/* ================================================================
+   Orange Theme for Card Headers
+   ================================================================ */
+
+.card>.card-header {
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    border-bottom: none !important;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+.card>.card-header .card-title,
+.card>.card-header .card-title span,
+.card>.card-header h5 {
+    color: var(--clr-white);
+}
+
+.card>.card-header i[data-feather],
+.card>.card-header svg {
+    color: var(--clr-white);
+    stroke: var(--clr-white);
+}
+
+/* Refresh button in card header - Normal: Light Green (#28c76f), Hover: White bg */
+.card>.card-header .btn-outline-success {
+    background-color: #28c76f !important;
+    /* Lite Green */
+    border-color: #28c76f !important;
+    color: #fff !important;
+}
+
+.card>.card-header .btn-outline-success:hover {
+    background-color: var(--clr-white) !important;
+    color: var(--clr-primary) !important;
+    border-color: var(--clr-white) !important;
+}
+
+.card>.card-header .btn-outline-success svg,
+.card>.card-header .btn-outline-success i {
+    color: inherit;
+    stroke: currentColor;
+}
+
+/* ================================================================
+   Business Picker Theme Overrides
+   ================================================================ */
+
+/* Override Javascript-injected red styles for empty business picker */
+body .business-picker-btn.business-picker-empty {
+    color: var(--clr-primary) !important;
+    border-color: var(--clr-primary) !important;
+}
+
+body .business-picker-btn.business-picker-empty:hover,
+body .business-picker-btn.business-picker-empty:focus {
+    background-color: #fff !important;
+    /* Don't change bg color */
+    color: var(--clr-primary) !important;
+    border-color: var(--clr-primary) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
+}
+
+body .business-picker-btn.business-picker-empty:hover img,
+body .business-picker-btn.business-picker-empty:focus img {
+    border-color: var(--clr-primary) !important;
+}
+
+/* ================================================================
+   Syncfusion EJ2 Orange Theme Overrides (Centralized)
+   ================================================================ */
+
+/* Grid header background */
+.e-grid .e-headercontent,
+.e-grid,
+.e-grid.e-control,
+.e-grid .e-groupdroparea,
+.e-toolbar {
+    border-color: var(--clr-primary) !important;
+}
+
+.e-grid .e-groupdroparea {
+    background-color: #f8f9fa !important;
+    border-top: 1px solid var(--clr-primary) !important;
+}
+
+.e-grid .e-gridheader {
+    background-color: var(--clr-primary) !important;
+    border-bottom-color: var(--clr-primary) !important;
+    border-top-color: var(--clr-primary) !important;
+    /* Fix white patch/gap */
+}
+
+/* Fix grouped header leftmost cell to inherit orange background */
+.e-grid .e-gridheader .e-grouptopleftcell,
+.e-grid .e-gridheader .e-groupheadercell {
+    background-color: var(--clr-primary) !important;
+}
+
+
+.e-grid .e-headercell,
+.e-grid .e-headercelldiv,
+.e-grid .e-headercell .e-headertext {
+    color: var(--clr-white) !important;
+    background-color: var(--clr-primary) !important;
+}
+
+/* Grid header icons (sort, filter) */
+.e-grid .e-headercell .e-icons,
+.e-grid .e-headercell .e-sortfilterdiv,
+.e-grid .e-headercell .e-sortfilterdiv .e-icons {
+    color: var(--clr-white) !important;
+}
+
+/* Column header resize handle */
+.e-grid .e-headercell .e-rhandler {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Selected row */
+.e-grid .e-row.e-altrow.e-selectionbackground,
+.e-grid .e-row.e-selectionbackground {
+    background-color: rgba(255, 122, 42, 0.15) !important;
+}
+
+/* Hover row */
+.e-grid .e-row:hover {
+    background-color: rgba(255, 122, 42, 0.08) !important;
+}
+
+/* Toolbar appearance */
+.e-grid .e-toolbar {
+    border-bottom: 1px solid var(--clr-primary) !important;
+    background-color: #fff !important;
+}
+
+.e-grid .e-toolbar .e-toolbar-items {
+    background-color: #fff !important;
+}
+
+/* Toolbar Search focus - orange border */
+.e-grid .e-toolbar .e-search .e-input-group.e-input-focus {
+    border-color: var(--clr-primary) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 122, 42, 0.25) !important;
+}
+
+/* Toolbar buttons - more prominent/gray */
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn,
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:active,
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:visited {
+    background-color: #e9ecef !important;
+    /* Darker gray */
+    border: none !important;
+    color: #3f454b !important;
+    border-radius: 4px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:hover,
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:focus {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border: none !important;
+}
+
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:hover .e-icons,
+.e-grid .e-toolbar .e-toolbar-item .e-tbar-btn:focus .e-icons {
+    color: var(--clr-white) !important;
+}
+
+/* Pager Alignment Fix */
+.e-grid .e-pager,
+.e-grid .e-gridpager,
+.e-pager {
+    border-top: 1px solid var(--clr-primary) !important;
+    padding-top: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    /* Vertically center all items */
+}
+
+/* Remove default padding/margin that causes misalignment and push to right */
+.e-pager .e-parentmsgbar {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    line-height: normal !important;
+    align-self: center !important;
+    margin-left: auto !important;
+    /* Push to right end */
+    padding-right: 0px !important;
+    order: 99 !important;
+    /* Ensure it's the last item */
+}
+
+.e-pager .e-pagesizes {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Dropdown vertical centering */
+.e-pager .e-pagerdropdown,
+.e-pager .e-pagesizes .e-dropdownlist {
+    display: flex !important;
+    align-items: center !important;
+    margin-top: 0 !important;
+    /* Fix misalignment */
+}
+
+.e-pager .e-pagerdropdown .e-control.e-dropdownlist,
+.e-pager .e-pagesizes .e-control.e-dropdownlist {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.e-pager .e-pagesizes .e-pagerconstant {
+    line-height: normal !important;
+    vertical-align: middle !important;
+    margin-top: 0 !important;
+    margin-right: 5px !important;
+}
+
+/* Items per page dropdown container border */
+.e-pager .e-pagerdropdown .e-input-group,
+.e-pager .e-pagesizes .e-input-group {
+    border-color: var(--clr-primary) !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 5px !important;
+    margin-top: 3px !important;
+}
+
+/* Unselected pager buttons - no outlines, clean look */
+.e-pager .e-numericitem,
+.e-pager .e-prev,
+.e-pager .e-next,
+.e-pager .e-first,
+.e-pager .e-last,
+.e-pager .e-pp,
+.e-pager .e-np {
+    border: none !important;
+    /* Remove outlines */
+    color: var(--clr-primary) !important;
+    background-color: transparent !important;
+    margin: 0 2px !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.e-pager .e-numericitem:hover,
+.e-pager .e-prev:hover,
+.e-pager .e-next:hover,
+.e-pager .e-first:hover,
+.e-pager .e-last:hover,
+.e-pager .e-pp:hover,
+.e-pager .e-np:hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border-radius: 4px !important;
+}
+
+/* Selected/current page button - rounded, no blue outline */
+.e-grid .e-pager .e-currentitem,
+.e-pager .e-currentitem {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    /* Rounded corners */
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Items per page dropdown - orange border & remove internal lines */
+.e-pager .e-pagercontainer {
+    border: 1px solid var(--clr-primary) !important;
+}
+
+.e-pager .e-pagercontainer .e-first,
+.e-pager .e-pagercontainer .e-prev,
+.e-pager .e-pagercontainer .e-numericcontainer,
+.e-pager .e-pagercontainer .e-numericcontainer *,
+.e-pager .e-pagercontainer .e-next,
+.e-pager .e-pagercontainer .e-last,
+.e-pager .e-pagercontainer .e-pp,
+.e-pager .e-pagercontainer .e-np {
+    border: none !important;
+}
+
+.e-pager .e-pagercontainer .e-input-group {
+    border: 1px solid var(--clr-primary) !important;
+}
+
+/* Dropdown popup items - orange with rounded corners */
+.e-dropdownlist.e-popup .e-list-item.e-active,
+.e-dropdownlist.e-popup .e-list-item.e-hover,
+.e-dropdownlist.e-popup .e-list-item:hover,
+.e-ddl.e-popup .e-list-item.e-active,
+.e-ddl.e-popup .e-list-item.e-hover,
+.e-ddl.e-popup .e-list-item:hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border-radius: 4px !important;
+    margin: 2px 4px !important;
+}
+
+.e-dropdownlist.e-popup .e-list-item,
+.e-ddl.e-popup .e-list-item {
+    transition: background-color 0.2s ease, border-radius 0.2s ease;
+}
+
+/* Center text in dropdown input */
+.e-pager .e-pagerdropdown .e-input-group .e-input,
+.e-pager .e-pagesizes .e-input-group .e-input {
+    text-align: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Search box border */
+.e-grid .e-toolbar .e-input-group.e-search,
+.e-grid .e-toolbar .e-input-group.e-input-focus,
+.e-input-group.e-input-focus {
+    border-color: var(--clr-primary) !important;
+}
+
+/* Column chooser/filter popup accent */
+.e-grid .e-ccdlg .e-btn.e-primary,
+.e-grid .e-excelfilter .e-btn.e-primary,
+.e-dialog .e-btn.e-primary,
+.e-btn.e-primary {
+    background-color: var(--clr-primary) !important;
+    border-color: var(--clr-primary) !important;
+}
+
+.e-dialog .e-btn.e-primary:hover,
+.e-btn.e-primary:hover {
+    background-color: var(--clr-primary-hover) !important;
+    border-color: var(--clr-primary-hover) !important;
+}
+
+/* Excel filter checkbox selected */
+.e-checkbox-wrapper .e-frame.e-check,
+.e-css.e-checkbox-wrapper .e-frame.e-check {
+    background-color: var(--clr-primary) !important;
+    border-color: var(--clr-primary) !important;
+}
+
+/* ================================================================
+   Modal Orange Theme
+   ================================================================ */
+
+/* Modal header */
+.modal .modal-header {
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    border-bottom: none !important;
+}
+
+.modal .modal-header .modal-title,
+.modal .modal-header .modal-title span {
+    color: var(--clr-white);
+}
+
+.modal .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.modal .modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+.modal .modal-header i,
+.modal .modal-header i.fa-solid,
+.modal .modal-header [data-feather] {
+    color: var(--clr-white);
+}
+
+/* Primary button in modal footer - use orange */
+.modal .modal-footer .btn-primary,
+.modal .modal-content .btn-primary {
+    background-color: var(--clr-primary);
+    border-color: var(--clr-primary);
+}
+
+.modal .modal-footer .btn-primary:hover,
+.modal .modal-footer .btn-primary:focus,
+.modal .modal-content .btn-primary:hover,
+.modal .modal-content .btn-primary:focus {
+    background-color: var(--clr-primary-hover);
+    border-color: var(--clr-primary-hover);
+}
+
+/* Form focus state */
+.modal .form-control:focus,
+.modal .form-select:focus {
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 122, 42, 0.25);
+}
+
+/* ================================================================
+   User Requested Adjustments
+   ================================================================ */
+
+/* Remove border from business picker dropdown */
+body .business-picker-btn {
+    border: none !important;
+}
+
+.e-toolbar-left {
+    padding: 0 5px !important;
+    height: 35px !important;
+}
+
+.e-toolbar-right {
+    padding: 0 5px !important;
+}
+
+.e-toolbar-item:first-child {
+    margin-left: 0 !important;
+}
+
+.e-toolbar-item:last-child {
+    margin-right: 0 !important;
+}
+
+/* Success color for Add Button Icon - High Specificity */
+.e-toolbar-items #toolbarAdd .e-icons {
+    color: #28a745 !important;
+}
+
+.e-toolbar-items #toolbarAdd:hover .e-icons {
+    color: #ffffff !important;
+}
+
+.e-grid .e-toolbar .e-toolbar-items .e-columnchooser-btn {
+    margin-top: 1px !important;
+}
+
+/* Pager Buttons Padding */
+.e-pager .e-pagercontainer .e-first,
+.e-pager .e-pagercontainer .e-prev,
+.e-pager .e-pagercontainer .e-numericitem,
+.e-pager .e-pagercontainer .e-next,
+.e-pager .e-pagercontainer .e-last {
+    margin: 2px !important;
+}
+
+
+.e-pager .e-pagesizes .e-pagerconstant {
+    margin-top: 5px !important;
+}
+
+/* Dropdown popup items - gap, spacing and orange hover/active */
+.e-dropdownbase .e-list-item {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    width: auto !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.e-dropdownbase .e-list-item:hover,
+.e-dropdownbase .e-list-item.e-active,
+.e-dropdownbase .e-list-item.e-hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+}
+
+/* Action buttons in grid (e-fleet) - orange hover to match toolbar */
+.e-grid .e-btn.e-fleet {
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.e-grid .e-btn.e-fleet:hover,
+.e-grid .e-btn.e-fleet:focus,
+.e-grid .e-btn.e-fleet:active {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    border-radius: 4px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.e-grid .e-btn.e-fleet:hover .e-icons,
+.e-grid .e-btn.e-fleet:hover .e-btn-icon,
+.e-grid .e-btn.e-fleet:focus .e-icons,
+.e-grid .e-btn.e-fleet:focus .e-btn-icon {
+    color: var(--clr-white) !important;
+}
+
+/* ================================================================
+   Syncfusion Grid Filter Menu & Dialog (Orange Theme)
+   ================================================================ */
+
+/* Excel Filter Menu - Selected/Hover item highlight */
+.e-excel-filter .e-contextmenu .e-menu-item.e-selected,
+.e-excel-filter .e-contextmenu-wrapper .e-menu-item.e-selected,
+.e-excel-filter .e-menu-item.e-selected,
+.e-excel-filter .e-menu-item.e-active,
+.e-excel-filter .e-menu-item.e-hover {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+}
+
+/* Ensure submenu arrow turns white on selection */
+.e-excel-filter .e-menu-item.e-selected .e-caret,
+.e-excel-filter .e-menu-item.e-active .e-caret,
+.e-excel-filter .e-menu-item.e-hover .e-caret {
+    color: var(--clr-white) !important;
+}
+
+/* Radio buttons in Custom Filter dialog */
+.e-grid .e-radio-wrapper .e-radio:checked+label::before,
+.e-excel-filter .e-radio-wrapper .e-radio:checked+label::before,
+.e-radio-wrapper .e-radio:checked+.e-label::before {
+    border-color: var(--clr-primary) !important;
+}
+
+.e-grid .e-radio-wrapper .e-radio:checked+label::after,
+.e-excel-filter .e-radio-wrapper .e-radio:checked+label::after,
+.e-radio-wrapper .e-radio:checked+.e-label::after {
+    background-color: var(--clr-primary) !important;
+}
+
+/* Context Menu specifically (sometimes rendered outside e-excel-filter container) */
+.e-contextmenu-wrapper ul .e-menu-item.e-selected,
+.e-contextmenu-wrapper ul .e-menu-item.e-active,
+.e-contextmenu-wrapper ul .e-menu-item.e-focused {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+}
+
+.e-contextmenu-wrapper ul .e-menu-item.e-selected .e-caret,
+.e-contextmenu-wrapper ul .e-menu-item.e-active .e-caret,
+.e-contextmenu-wrapper ul .e-menu-item.e-focused .e-caret {
+    color: var(--clr-white) !important;
+}
+
+/* Checkbox in Filter popup (Select All / Items) - sync with orange if not already */
+.e-excel-filter .e-checkbox-wrapper .e-frame.e-check {
+    background-color: var(--clr-primary) !important;
+    border-color: var(--clr-primary) !important;
+}
+
+/* Excel Filter Search box focus */
+.e-excel-filter .e-input-group.e-input-focus {
+    border-color: var(--clr-primary) !important;
+    box-shadow: 0 0 0 0.15rem rgba(255, 122, 42, 0.25) !important;
+}
+
+/* Custom Filter Dialog Header - Orange Background */
+.e-dialog .e-dlg-header-content,
+.e-excel-filter .e-dlg-header-content,
+.e-excelfilter .e-dlg-header-content {
+    background-color: var(--clr-primary) !important;
+    color: var(--clr-white) !important;
+    padding: 12px 16px !important;
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    margin: 0 !important;
+}
+
+/* Remove padding/margin on dialog container that causes white strip */
+.e-dialog.e-popup,
+.e-excel-filter.e-dialog,
+.e-dialog {
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 6px !important;
+}
+
+/* Match dialog border-radius with header */
+.e-dialog .e-dlg-content {
+    border-radius: 0 !important;
+}
+
+.e-dialog .e-dlg-header-content .e-dlg-header,
+.e-excel-filter .e-dlg-header-content .e-dlg-header,
+.e-excelfilter .e-dlg-header-content .e-dlg-header {
+    color: var(--clr-white) !important;
+}
+
+/* Close button in dialog header - white */
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn,
+.e-excel-filter .e-dlg-header-content .e-btn.e-dlg-closeicon-btn,
+.e-excelfilter .e-dlg-header-content .e-btn.e-dlg-closeicon-btn {
+    color: var(--clr-white) !important;
+}
+
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn .e-icon-dlg-close,
+.e-excel-filter .e-dlg-header-content .e-btn.e-dlg-closeicon-btn .e-icon-dlg-close,
+.e-excelfilter .e-dlg-header-content .e-btn.e-dlg-closeicon-btn .e-icon-dlg-close {
+    color: var(--clr-white) !important;
+}
+
+/* Radio button selected state - Orange (e-control e-radio e-lib) */
+/* Outer ring (border) - set border to orange and fill inner with orange */
+.e-radio:checked+label::before,
+.e-radio:checked+.e-label::before,
+.e-control.e-radio:checked+label::before,
+.e-radio-wrapper .e-radio:checked+label::before {
+    border-color: var(--clr-primary) !important;
+    background-color: var(--clr-primary) !important;
+}
+
+/* Inner filled dot - white dot in center of orange circle */
+.e-radio:checked+label::after,
+.e-radio:checked+.e-label::after,
+.e-control.e-radio:checked+label::after,
+.e-radio-wrapper .e-radio:checked+label::after {
+    background-color: var(--clr-white) !important;
+}
+
+/* Override Syncfusion default blue ripple/focus ring */
+.e-radio-wrapper .e-radio:focus+label::before,
+.e-radio-wrapper .e-radio:focus:checked+label::before {
+    border-color: var(--clr-primary) !important;
+    box-shadow: 0 0 0 2px rgba(255, 122, 42, 0.2) !important;
+}
+
+/* Syncfusion Grid Indicator Spinner - Orange Theme (Outline only) */
+.e-spinner-pane .e-spinner-inner svg circle {
+    stroke: var(--clr-primary) !important;
+    fill: none !important;
+}
+
+.e-spinner-pane .e-spinner-inner svg path {
+    stroke: var(--clr-primary) !important;
+    fill: none !important;
+    stroke-width: 2 !important;
+    /* Ensure the outline is visible */
+}
+
+/* Fallback for different themes/implementations */
+.e-spinner-pane .e-spin-bootstrap4,
+.e-spinner-pane .e-spin-bootstrap5,
+.e-spinner-pane .e-spin-fabric,
+.e-spinner-pane .e-spin-material,
+.e-spinner-pane .e-spin-highcontrast {
+    stroke: var(--clr-primary) !important;
+    fill: none !important;
+}

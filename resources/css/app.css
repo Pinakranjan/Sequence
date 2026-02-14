@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Breadcrumb separator spacing */
+.font-monospace img,
+.arrow img {
+  margin: 0 26px;
+  vertical-align: middle;
+  display: inline-block;
+  height: 22px;
+}
+
+/* Breadcrumb list images (e.g., <li><img ...></li>) */
+.breadcrumb-menu ul,
+.breadcrumb-wrapper .breadcrumb-menu ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.breadcrumb-menu ul li,
+.breadcrumb-wrapper .breadcrumb-menu ul li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb-menu ul li img,
+.breadcrumb-wrapper .breadcrumb-menu img {
+  margin: 0 26px;
+  vertical-align: middle;
+  display: inline-block;
+  height: 22px;
+}

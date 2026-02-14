@@ -1,0 +1,652 @@
+:root {
+  --clr-primary: #fc8019;
+  --clr-white: #fff;
+  --clr-white2: #f9f9f9;
+  --clr-white3: #f3f7ff;
+  --clr-black: #01040d;
+  --clr-black2: #171717;
+  --clr-black3: #344054;
+  --clr-gray: #525252;
+  --clr-gray1: #737373;
+  --clr-gray2: #d4d4d4;
+  --clr-gray3: #f5f5f5;
+  --clr-gray4: #f4f5f7;
+  --clr-gray5: #a3a3a3;
+  --clr-violet: rgba(130, 49, 211, 1);
+  --clr-violet-light: rgba(130, 49, 211, 0.12);
+  --clr-green: #01b81a;
+  --clr-green-light: rgba(1, 184, 26, 0.12);
+  --clr-orange: #ff6565;
+  --clr-orange-light: rgba(255, 116, 62, 0.12);
+  --clr-red: #ef4444;
+  --ff: "Inter", sans-serif;
+}
+
+.mybazar-login-section .forget-password input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1px solid #d0d5dd !important;
+  background: #1772ff !important;
+  margin-right: 5px;
+  margin-top: -1px;
+}
+
+.mybazar-login-section .forget-password input[type="checkbox"]:checked+.custom-control-label::before {
+  color: #ffffff;
+}
+
+.mybazar-login-section .forget-password input[type="checkbox"]:checked {
+  accent-color: #3291d4 !important;
+}
+
+/* Auth pages: center the full login block on wide screens */
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-shell .auth-shell__main {
+  flex: 1 0 auto;
+  display: block;
+}
+
+.auth-shell .footer-container {
+  margin-top: auto;
+}
+
+/* Footer partial uses Bootstrap mt-4; remove it for auth pages */
+.auth-shell .footer-content {
+  margin-top: 0 !important;
+}
+
+.mybazar-login-section {
+  min-height: 100vh;
+}
+
+/* When footer is present on auth pages, avoid extra scroll */
+.auth-shell .mybazar-login-section {
+  min-height: calc(100vh - 72px);
+}
+
+.mybazar-login-section .mybazar-login-wrapper {
+  width: 100%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center business logo and titles inside auth pages */
+.mybazar-login-section .footer-logo {
+  text-align: center;
+  margin-bottom: 18px;
+  /* gap between logo and below text */
+}
+
+.mybazar-login-section .footer-logo img {
+  display: inline-block;
+  margin: 0 auto;
+  width: 340px;
+  max-width: 100%;
+  height: 84px;
+  max-height: 84px;
+  object-fit: contain;
+}
+
+.mybazar-login-section .login-title,
+.mybazar-login-section .login-para {
+  text-align: center;
+}
+
+/* Also cover legacy/admin lock page selectors */
+.auth-logo img,
+.auth-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
+  /* gap on legacy lock/admin logo */
+}
+
+.account-page .pera-title,
+.account-page .text-muted {
+  text-align: center;
+}
+
+.mybazar-login-wrapper .login-img {
+  display: flex;
+  justify-content: center;
+}
+
+.mybazar-login-wrapper .login-img img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Spread auth content more on large screens */
+@media (min-width: 1200px) {
+  .mybazar-login-section .mybazar-login-wrapper {
+    grid-template-columns: 55% 45% !important;
+    gap: 40px;
+    padding: 60px 48px;
+  }
+
+  .mybazar-login-section .login-wrapper {
+    max-width: 100%;
+  }
+}
+
+/* Scoped compact banner width for verify/reset pages: limit alert/banner width to 75% on large screens */
+@media (min-width: 1200px) {
+
+  .auth-compact-banners .login-body>.alert,
+  .auth-compact-banners .login-body>.verification-alert {
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 1024px),
+(orientation: portrait) {
+
+  .mybazar-login-section .login-img,
+  .mybazar-login-section .mybazar-login-avatar {
+    display: none !important;
+  }
+
+  .mybazar-login-section .mybazar-login-wrapper {
+    grid-template-columns: 1fr !important;
+    padding: 30px !important;
+    justify-content: center;
+  }
+}
+
+/* Remove the coreui/bootstrap invalid-field icon only for the New Password field */
+#password.is-invalid,
+#password.is-invalid:focus,
+#password_confirmation.is-invalid,
+#password_confirmation.is-invalid:focus {
+  background-image: none !important;
+  background-position: unset !important;
+  padding-right: 12px !important;
+}
+
+.indicate-text {
+  font-size: 12px;
+  color: red;
+}
+
+.form-control.error {
+  border-color: red;
+  padding: 12px 15px;
+}
+
+.image-wrapper.error {
+  border-color: red;
+  padding: 12px 15px;
+}
+
+.error-alert {
+  font-size: 11px;
+  color: red;
+}
+
+.error {
+  color: red !important;
+}
+
+.budget-form .form-control[readonly] {
+  background-color: #fff !important;
+}
+
+.budget-form ::placeholder {
+  font-size: 12px;
+}
+
+.avatar {
+  background: #ffffff;
+  border-radius: 50%;
+  color: #e3eaef;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+  position: relative;
+  vertical-align: middle;
+  line-height: 1.28;
+  height: 45px;
+  width: 45px;
+}
+
+.table-custom-checkbox {
+  height: 20px;
+  width: 20px;
+  margin-right: 6px;
+}
+
+.avatar.avatar-sm {
+  font-size: 12px;
+  height: 40px;
+  width: 40px;
+}
+
+.avatar img {
+  border-radius: 50%;
+  height: 40px;
+  position: relative;
+  width: 40px;
+  z-index: 1;
+}
+
+.btn-custom-warning {
+  background-color: var(--clr-primary) !important;
+  color: white;
+  border: none !important;
+  border: 1px solid #fff !important;
+  position: relative;
+  z-index: 20;
+}
+
+.btn-custom-warning:hover {
+  color: var(--clr-primary) !important;
+  background-color: transparent !important;
+  border: 1px solid var(--clr-primary) !important;
+}
+
+.custom-warning-color {
+  color: #1772ff;
+}
+
+.roles-permissions table td {
+  color: rgba(70, 76, 84, 1);
+  font-weight: 400 !important;
+}
+
+.img-preview {
+  margin-top: 4px;
+  height: auto;
+  width: 100px;
+}
+
+.side-bar-logo img {
+  object-fit: contain;
+}
+
+.folders-files tr a {
+  font-size: 18px !important;
+}
+
+.gradient-row {
+  background: linear-gradient(270deg, #dbe4df 0%, #65e4a6 50%, #ffffff 100%);
+}
+
+@media print {
+  .table-two thead td {
+    padding: 0px !important;
+  }
+}
+
+.order-form-section label {
+  white-space: nowrap;
+}
+
+.table-form-section .responsive-table {
+  min-height: unset !important;
+}
+
+.table-title-three h5 {
+  font-weight: 600 !important;
+}
+
+.loss-profit-custom-color1 {
+  background-color: rgba(255, 132, 0, 0.15);
+}
+
+.loss-profit-custom-color2 {
+  background-color: rgba(255, 181, 101, 1);
+  font-weight: bold;
+}
+
+.production-wrap {
+  padding-right: 60px;
+}
+
+.form-control.reset-img {
+  display: none;
+}
+
+.print-wrapper .responsive-table {
+  min-height: unset;
+}
+
+.print-wrapper .table th,
+.print-wrapper .table td {
+  white-space: nowrap;
+}
+
+.print-wrapper {
+  min-height: 700px !important;
+}
+
+.table-header h3,
+.table-header h4 {
+  font-weight: 700;
+}
+
+.erp-new-invice .invice-detaisl {
+  padding: 20px 0;
+}
+
+.commercial-invoice {
+  margin-bottom: 30px;
+}
+
+.invoice-payment-details {
+  margin-top: 40px;
+}
+
+.erp-new-invice {
+  min-height: 900px !important;
+}
+
+/* new css added */
+.remove-border {
+  border-top: none;
+}
+
+/* new css added */
+
+/* dropdown font size reduce */
+.form-select {
+  font-size: 1rem;
+}
+
+.product-img {
+  height: 100px;
+  width: 250px;
+  border-radius: 2%;
+  overflow: hidden;
+  border: 2px dashed #e4e5e7;
+}
+
+.form-control .form-control {
+  border: 0 !important;
+}
+
+.table-user-icon {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: var(--clr-gray4);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.table-user-icon img {
+  height: 25px;
+}
+
+.ctg-icon img {
+  max-height: 40px;
+  width: auto;
+  margin: 0 auto;
+}
+
+/*delete modal*/
+.delete-modal {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.delete-modal h5 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  margin-bottom: 5px;
+}
+
+.delete-modal p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.multiple-button-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.chart-css {
+  width: 100% !important;
+  max-height: 340px !important;
+  min-height: 290px;
+}
+
+.rounded-image .table-img {
+  width: 40px;
+  height: 40px;
+}
+
+/* new css */
+.offer-img {
+  width: 120px;
+  height: 100px;
+}
+
+/* new css */
+
+.width-10 {
+  width: 10px;
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input .hide-pass {
+  position: absolute;
+  top: 36px;
+  right: 10px;
+  background: none;
+  border: 0;
+}
+
+.switch.notification-switch {
+  left: 90%;
+}
+
+.custom-color {
+  color: var(--clr-white) !important;
+  border: 1px solid var(--clr-primary);
+  background-color: var(--clr-primary) !important;
+}
+
+#coupon_code.form-control:focus {
+  border: 1px solid #ced4da !important;
+}
+
+.addon-image {
+  height: 58px;
+  width: 48px;
+}
+
+.addon-item.custom-selected {
+  background-color: #dceaff;
+}
+
+.active-radio-selected {
+  background-color: #dceaff !important;
+  border: 1px solid #1772ff !important;
+}
+
+.active-checkbox {
+  background-color: #dceaff !important;
+  border: 1px solid #1772ff !important;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex {
+  display: flex;
+}
+
+.h-\[38px\] {
+  height: 38px;
+}
+
+.border-primary {
+  --tw-border-opacity: 1;
+  border-color: rgb(23 114 255 / var(--tw-border-opacity));
+}
+
+.border {
+  border-width: 1px;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.lab-font-size-16 {
+  font-size: 16px !important;
+}
+
+*,
+:after,
+:before {
+  border: 0 solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.dropdown-menu-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.all-items-bg {
+  background-color: #ffeee6;
+}
+
+.special-instructions {
+  height: 48px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+}
+
+.bg-FFEEE6 {
+  background-color: #ffeee6;
+}
+
+.modifier-color {
+  background-color: #2f5a760d;
+  color: var(--clr-primary);
+  padding: 3px;
+  border-radius: 4px;
+}
+
+.dynamic-add-btn {
+  border: none;
+}
+
+.dynamic-add-btn svg {
+  width: 30px;
+  height: 30px;
+  color: #fc8019;
+}
+
+.dynamic-delete-btn {
+  border: none;
+}
+
+.dynamic-delete-btn svg {
+  width: 27px;
+  height: 27px;
+}
+
+.option-row .form-check-input {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #fc8019;
+  accent-color: #fc8019 !important;
+}
+
+.option-row .form-check-input:checked {
+  background-color: #fc8019;
+}
+
+.option-row .form-check-label {
+  font-size: 16px;
+}
+
+.custom-tabs {
+  display: flex;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.custom-tabs .tab-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #555;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+.custom-tabs .tab-item.active {
+  color: var(--clr-primary);
+  border-bottom: 2px solid var(--clr-primary);
+  background: linear-gradient(180deg,
+      rgba(197, 33, 39, 0.012) 0%,
+      rgba(197, 33, 39, 0.045) 55.15%,
+      rgba(197, 33, 39, 0.12) 100%);
+}
+
+.dashboard-tab {
+  display: none;
+}
+
+.dashboard-tab.active {
+  display: block;
+}
+
+.roles-card {
+  box-shadow: 0px 3px 17px -4px #1717172b;
+  border-radius: 8px;
+}
+
+.custom-form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
