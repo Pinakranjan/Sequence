@@ -12,7 +12,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.ico') }}">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ url('/favicon.svg') }}">
 
     <!-- Quill css -->
     <link href="{{ asset('backend/assets/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
@@ -54,6 +55,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+    <style>
+        :root {
+            --theme-color:
+                {{ config('services.theme.color') }}
+            ;
+        }
+    </style>
     <style>
         /* Make toastr width dynamic based on content */
         #toast-container>div {

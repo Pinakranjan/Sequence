@@ -174,8 +174,14 @@
                 <div class="login-wrapper">
                     <div class="login-body w-100">
                         <div class="footer-logo w-100">
-                            <img src="{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}"
-                                alt="logo">
+                            @php
+                                $logoUrl = asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg');
+                            @endphp
+                            <div class="logo-wrapper" style="width: 340px; max-width: 100%; height: 84px; margin: 0 auto;">
+                                <div class="theme-logo-mask"
+                                    style="-webkit-mask-image: url('{{ $logoUrl }}'); mask-image: url('{{ $logoUrl }}');">
+                                </div>
+                            </div>
                         </div>
 
                         <h2 class="login-title text-center">{{ __('Verify Your Account') }}</h2>

@@ -76,7 +76,9 @@
         }
 
         #lock-overlay .lock-overlay-card {
-            background: #ff7a2a;
+            background:
+                {{ config('services.theme.color') }}
+            ;
             color: #fff;
             padding: 10px 16px;
             border-radius: 12px;
@@ -153,7 +155,9 @@
             --bs-success-rgb: 41, 170, 133;
             --bs-danger: #ec8290;
             --bs-danger-rgb: 236, 130, 144;
-            --bs-warning: #fc8019;
+            --bs-warning:
+                {{ config('services.theme.color') }}
+            ;
             --bs-warning-rgb: 252, 128, 25;
         }
 
@@ -173,7 +177,7 @@
         }
 
         .login-body .badge.bg-warning {
-            background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity, 1)) !important;
+            background-color: var(--bs-warning) !important;
             color: #fff !important;
         }
     </style>
@@ -186,8 +190,14 @@
                 <div class="login-wrapper">
                     <div class="login-body w-100">
                         <div class="footer-logo w-100">
-                            <img src="{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}"
-                                alt="logo">
+                            @php
+                                $logoUrl = asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg');
+                            @endphp
+                            <div class="logo-wrapper" style="width: 340px; max-width: 100%; height: 84px; margin: 0 auto;">
+                                <div class="theme-logo-mask"
+                                    style="-webkit-mask-image: url('{{ $logoUrl }}'); mask-image: url('{{ $logoUrl }}');">
+                                </div>
+                            </div>
                         </div>
                         <h2 class="login-title">{{ __('Enter Your Credentials') }}</h2>
                         <h6 class="login-para mb-2">{{ __('Please enter your password or PIN to continue') }}</h6>
@@ -252,7 +262,7 @@
                         @if($hasPinEnabled)
                             <div class="auth-method-toggle d-flex justify-content-center gap-2 mb-3">
                                 <button type="button" class="btn btn-sm auth-method-btn active" data-method="pin"
-                                    style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 4px 12px; font-size: 13px; background-color: #ff7a2a; color: #fff;">
+                                    style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 4px 12px; font-size: 13px; background-color: {{ config('services.theme.color') }}; color: #fff;">
                                     {{ __('PIN') }}
                                 </button>
                                 <button type="button" class="btn btn-sm auth-method-btn" data-method="password"
@@ -373,7 +383,7 @@
                         b.style.color = 'inherit';
                     });
                     this.classList.add('active');
-                    this.style.backgroundColor = '#ff7a2a';
+                    this.style.backgroundColor = '{{ config('services.theme.color') }}';
                     this.style.color = '#fff';
 
                     authMethodInput.value = method;

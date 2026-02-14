@@ -7,7 +7,7 @@
 
 /* CSS Variables */
 :root {
-    --clr-primary: #ff7a2a;
+    --clr-primary: var(--theme-color, #ff7a2a);
     --clr-primary-hover: #e56a20;
     --clr-white: #ffffff;
     --clr-text: #5b5b5b;

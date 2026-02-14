@@ -227,7 +227,7 @@
                 @endphp
                 <style>
                     .custom-orange-badge {
-                        background-color: #fc8019 !important;
+                        background-color: var(--theme-color) !important;
                         color: #fff !important;
                     }
                 </style>

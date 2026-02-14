@@ -9,7 +9,7 @@ body {
     background: #ecf1f9;
 }
 :root {
-    --clr-primary: #fc8019;
+    --clr-primary: var(--theme-color);
     --clr-white: #fff;
     --clr-white2: #f9f9f9;
     --clr-white3: #f3f7ff;

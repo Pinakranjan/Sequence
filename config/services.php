@@ -44,6 +44,11 @@ return [
         'version' => env('SYNCFUSION_VERSION'),
     ],
 
+    // Theme customization
+    'theme' => [
+        'color' => '#7c00cfff', //ff7a2a, 38b1c9ff, 7fae07ff
+    ],
+
     // Registration/business specific settings
     'business' => [
         // Two fixed codes allow registering as Super Admin without business assignment

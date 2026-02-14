@@ -106,7 +106,7 @@
 					if (r === 'admin') { label = 'ADMIN'; cls = 'bg-success'; }
 					else if (r === 'super admin' || r === 'super_admin' || r === 'superadmin') { label = 'SUPER ADMIN'; cls = 'bg-danger'; }
 					else if (r === 'waiter') { label = 'WAITER'; cls = 'bg-info'; }
-					else if (r === 'chef') { label = 'CHEF'; cls = 'bg-warning text-white'; style += 'background-color:#fc8019!important;color:#fff!important;'; }
+					else if (r === 'chef') { label = 'CHEF'; cls = 'bg-warning text-white'; style += 'background-color:{{ config('services.theme.color') }}!important;color:#fff!important;'; }
 					return '<span class="badge '+ cls +' text-uppercase ms-2" style="' + style + '">' + label + '</span>';
 				}
 				function bool(v){ return (v === true || v === 1 || v === '1'); }
@@ -1051,7 +1051,7 @@
 <style>
 	/* Orange outline buttons (match app orange) */
 	.btn-outline-orange {
-		--c: #ff7a2a;
+		--c: {{ config('services.theme.color') }};
 		color: var(--c);
 		border-color: var(--c);
 		background: transparent;
@@ -1059,8 +1059,8 @@
 	.btn-outline-orange:hover,
 	.btn-outline-orange:focus {
 		color: #fff;
-		background: #ff7a2a;
-		border-color: #ff7a2a;
+		background: {{ config('services.theme.color') }};
+		border-color: {{ config('services.theme.color') }};
 	}
 
 	/* When the stacked terms modal is open, dim the parent business modal via overlay (no transparency) */

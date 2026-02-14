@@ -23,6 +23,26 @@ Route::get('/healthz', function () {
     return response('OK', 200);
 })->name('healthz');
 
+// Dynamic Favicon Route
+Route::get('/favicon.svg', function () {
+    $color = config('services.theme.color', '#38b1c9');
+    // Ensure 6-digit hex for compatibility if 8-digit provided
+    if (preg_match('/^#([a-fA-F0-9]{6})[a-fA-F0-9]{2}$/', $color, $matches)) {
+        $color = '#' . $matches[1];
+    }
+
+    $path = public_path('assets/images/icons/logo.svg');
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $content = file_get_contents($path);
+    // Replace the hardcoded stroke color with theme color
+    $content = str_replace('#38b1c9', $color, $content);
+
+    return response($content, 200, ['Content-Type' => 'image/svg+xml']);
+})->name('favicon.dynamic');
+
 require __DIR__ . '/auth.php';
 
 // Dashboard route

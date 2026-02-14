@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 :root {
-    --clr-primary: #fc8019;
+    --clr-primary: var(--theme-color);
     --clr-white: #fff;
     --clr-white2: #f9f9f9;
     --clr-white3: #f3f7ff;
@@ -6166,7 +6166,7 @@ input[type="number"] {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #fc8019;
+    background-color: var(--theme-color);
 }
 
 /* Plan Indicator end*/
@@ -6486,7 +6486,7 @@ input[type="number"] {
 }
 
 .custom-alert {
-    background: linear-gradient(135deg, #fc8019 0%, #ffb347 100%);
+    background: linear-gradient(135deg, var(--theme-color) 0%, #ffb347 100%);
     color: white;
     border-radius: 8px;
     padding: 16px 20px;
@@ -6545,7 +6545,7 @@ input[type="number"] {
 
 /* Hover colors */
 .action-btn.view:hover {
-    background-color: #fc8019;
+    background-color: var(--theme-color);
 }
 
 .action-btn.view:hover svg path {
@@ -6775,8 +6775,8 @@ span.action-btn.default i {
 }
 
 .cart-qty-control .cart-plus {
-    border: 1px solid #f97316;
-    color: #f97316;
+    border: 1px solid var(--theme-color);
+    color: var(--theme-color);
     height: 28px;
     width: 28px;
 }
@@ -6818,12 +6818,12 @@ span.action-btn.default i {
 }
 
 .incre-decre:hover {
-    border: 1px solid #fc8019 !important;
-    background-color: #fc80191a !important;
+    border: 1px solid var(--theme-color) !important;
+    background-color: rgba(var(--theme-color-rgb), 0.1) !important;
 }
 
 .incre-decre:hover i {
-    color: #fc8019;
+    color: var(--theme-color);
 }
 
 .incre-decre i {
@@ -7087,7 +7087,7 @@ span.action-btn.default i {
 }
 
 .variation-color {
-    color: #fc8019;
+    color: var(--theme-color);
     cursor: pointer;
 }
 
@@ -7616,7 +7616,7 @@ span.action-btn.default i {
 }
 
 .items-card-container .items-card-content:hover {
-    border: 1px solid #fc8019;
+    border: 1px solid var(--theme-color);
 }
 
 .items-card-content img {
@@ -8142,7 +8142,7 @@ table input {
 
 .variation-btn {
     border: none;
-    background: #fc80191a;
+    background: rgba(var(--theme-color-rgb), 0.1);
     color: #444;
     font-size: 14px;
     padding: 6px 14px;
@@ -8277,7 +8277,7 @@ table input {
 }
 
 .qty-btn:hover {
-    background-color: #fc80191a;
+    background-color: rgba(var(--theme-color-rgb), 0.1);
     color: var(--clr-primary);
 }
 
@@ -9417,7 +9417,7 @@ table input {
 
 .plan-single-content:hover {
     border: 1px solid var(--clr-primary);
-    background-color: #fc80190d;
+    background-color: rgba(var(--theme-color-rgb), 0.05);
 }
 
 .plan-single-content:hover .plan-buy-btn {
@@ -9515,7 +9515,7 @@ table input {
 
 .settings-box-container .setting-box:hover {
     border: 1px solid var(--clr-primary);
-    background-color: #fc80191a;
+    background-color: rgba(var(--theme-color-rgb), 0.1);
 }
 
 .settings-box-container .setting-box {
@@ -9542,7 +9542,7 @@ table input {
 .settings-box-container .setting-box .settings-icon {
     height: 44px;
     width: 44px;
-    background-color: #fc80191a;
+    background-color: rgba(var(--theme-color-rgb), 0.1);
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -9699,8 +9699,8 @@ table input {
 }
 
 .upcoming-status {
-    color: #fc8019;
-    background-color: #fc80191a;
+    color: var(--theme-color);
+    background-color: rgba(var(--theme-color-rgb), 0.1);
     height: 26px;
     border-radius: 20px;
     padding: 10px;
@@ -9920,7 +9920,7 @@ table input {
 }
 
 .table tbody tr:hover .action-btn.view {
-    background-color: #fc8019;
+    background-color: var(--theme-color);
 }
 
 .table tbody tr:hover .action-btn.edit {
@@ -10416,11 +10416,11 @@ table tbody tr:hover .action-btn.default i {
 .option-label input:checked~.addons-name::before,
 .option-label input:checked~.custom-check::before,
 .option-label input:checked~.price::before {
-    border-color: #f97316;
+    border-color: var(--theme-color);
 }
 
 .option-label input:checked~* {
-    border-color: #f97316;
+    border-color: var(--theme-color);
 }
 
 .addons-name {
@@ -10433,7 +10433,7 @@ table tbody tr:hover .action-btn.default i {
 }
 
 .option-card label.option-label:has(input:checked) {
-    border-color: #f97316;
+    border-color: var(--theme-color);
 }
 
 @media (max-width: 992px) {

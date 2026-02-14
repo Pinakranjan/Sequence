@@ -50,7 +50,7 @@
                                                 default => 'bg-secondary',
                                             };
                                         @endphp
-                                        <style>.custom-orange-badge { background-color: #fc8019 !important; color: #fff !important; }</style>
+                                        <style>.custom-orange-badge { background-color: var(--theme-color) !important; color: #fff !important; }</style>
                                         <div class="d-flex align-items-center gap-2">
                                             <h4 class="m-0 text-dark fs-20">{{ $profileData->name }}</h4>
                                             <span class="badge {{$roleBadgeClass}} text-uppercase align-middle"

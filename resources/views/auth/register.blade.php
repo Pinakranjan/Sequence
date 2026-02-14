@@ -11,8 +11,14 @@
                 <div class="login-wrapper">
                     <div class="login-body w-100">
                         <div class="footer-logo w-100  ">
-                            <img src="{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}"
-                                alt="logo">
+                            @php
+                                $logoUrl = asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg');
+                            @endphp
+                            <div class="logo-wrapper" style="width: 340px; max-width: 100%; height: 84px; margin: 0 auto;">
+                                <div class="theme-logo-mask"
+                                    style="-webkit-mask-image: url('{{ $logoUrl }}'); mask-image: url('{{ $logoUrl }}');">
+                                </div>
+                            </div>
                         </div>
                         <h2 class="login-title">{{ __('Create Account') }}</h2>
                         <h6 class="login-para">{{ __('Please fill in your details to register') }}</h6>
@@ -52,7 +58,9 @@
 
                                 /* Modal Refinements */
                                 .modal-header {
-                                    background-color: #ff7a2a !important;
+                                    background-color:
+                                        {{ config('services.theme.color') }}
+                                        !important;
                                     color: #ffffff !important;
                                     border-bottom: none !important;
                                 }
@@ -90,15 +98,26 @@
 
 
                                 .modal-footer .btn-primary {
-                                    background-color: #ff7a2a !important;
-                                    border-color: #ff7a2a !important;
+                                    background-color:
+                                        {{ config('services.theme.color') }}
+                                        !important;
+                                    border-color:
+                                        {{ config('services.theme.color') }}
+                                        !important;
                                     color: #fff !important;
                                 }
 
                                 .modal-footer .btn-primary:hover {
-                                    background-color: #e6691f !important;
-                                    border-color: #e6691f !important;
-                                    box-shadow: 0 4px 12px rgba(255, 122, 42, 0.3) !important;
+                                    background-color:
+                                        {{ config('services.theme.color') }}
+                                        !important;
+                                    border-color:
+                                        {{ config('services.theme.color') }}
+                                        !important;
+                                    opacity: 0.9;
+                                    box-shadow: 0 4px 12px
+                                        {{ config('services.theme.color') }}
+                                        4d !important;
                                 }
 
                                 .modal-footer .btn-outline-danger {

@@ -2,14 +2,198 @@
 
 @section('title', __('Lock Screen'))
 
+@push('css')
+    <style>
+        .pin-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .pin-input {
+            width: 55px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .auth-method-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .auth-method-btn {
+            padding: 8px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .auth-method-btn.active {
+            border-color: #3b82f6;
+            background: #3b82f6;
+            color: white;
+        }
+
+        .auth-method-btn:hover:not(.active) {
+            border-color: #9ca3af;
+        }
+
+        .credentials-section {
+            display: none;
+        }
+
+        .credentials-section.active {
+            display: block;
+        }
+
+        #lock-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        #lock-overlay .lock-overlay-card {
+            background:
+                {{ config('services.theme.color') }}
+            ;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            min-width: 220px;
+            max-width: 80%;
+            width: auto;
+            height: auto;
+            justify-content: center;
+        }
+
+        #lock-overlay .lock-overlay-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            flex: 0 0 auto;
+        }
+
+        #lock-overlay .lock-overlay-card .msg {
+            color: #fff;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pin-input.success {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+        }
+
+        .pin-input.error {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+
+        .user-email-display {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .lock-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        :root {
+            --bs-secondary: #8c57d1;
+            --bs-secondary-rgb: 140, 87, 209;
+            --bs-success: #29aa85;
+            --bs-success-rgb: 41, 170, 133;
+            --bs-danger: #ec8290;
+            --bs-danger-rgb: 236, 130, 144;
+            --bs-warning:
+                {{ config('services.theme.color') }}
+            ;
+            --bs-warning-rgb: 252, 128, 25;
+        }
+
+        .login-body .badge.bg-secondary {
+            background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity, 1)) !important;
+            color: #fff !important;
+        }
+
+        .login-body .badge.bg-success {
+            background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity, 1)) !important;
+            color: #fff !important;
+        }
+
+        .login-body .badge.bg-danger {
+            background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity, 1)) !important;
+            color: #fff !important;
+        }
+
+        .login-body .badge.bg-warning {
+            background-color: var(--bs-warning) !important;
+            color: #fff !important;
+        }
+    </style>
+@endpush
+
 @section('main_content')
     <div class="mybazar-login-section">
         <div class="mybazar-login-wrapper">
             <div class="login-wrapper">
                 <div class="login-body w-100">
                     <div class="footer-logo w-100">
-                        <img src="{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}"
-                            alt="logo">
+                        @php
+                            $logoUrl = asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg');
+                        @endphp
+                        <div class="logo-wrapper" style="width: 340px; max-width: 100%; height: 84px; margin: 0 auto;">
+                            <div class="theme-logo-mask"
+                                style="-webkit-mask-image: url('{{ $logoUrl }}'); mask-image: url('{{ $logoUrl }}');"></div>
+                        </div>
                     </div>
 
                     @if(!empty($locked['name']) || !empty($locked['email']))
@@ -164,115 +348,7 @@
 @push('js')
     @include('components.session_heartbeat')
     <script src="{{ asset('assets/js/auth.js') }}"></script>
-    <style>
-        .lock-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
 
-        #lock-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        /* Orange overlay with white foreground; show spinner and message on single centered line */
-        #lock-overlay .lock-overlay-card {
-            background: #ff7a2a;
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            min-width: 220px;
-            max-width: 80%;
-            width: auto;
-            height: auto;
-            justify-content: center;
-        }
-
-        #lock-overlay .lock-overlay-spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.95);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
-            flex: 0 0 auto;
-        }
-
-        #lock-overlay .lock-overlay-card .msg {
-            color: #fff;
-            font-weight: 600;
-            margin: 0;
-            white-space: nowrap;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Match admin theme badge colors by aligning Bootstrap tokens used by bg-* utilities */
-        :root {
-            --bs-secondary: #8c57d1;
-            --bs-secondary-rgb: 140, 87, 209;
-            --bs-success: #29aa85;
-            --bs-success-rgb: 41, 170, 133;
-            --bs-danger: #ec8290;
-            --bs-danger-rgb: 236, 130, 144;
-            --bs-warning: #fc8019;
-            --bs-warning-rgb: 252, 128, 25;
-        }
-
-        .login-body .badge.bg-secondary {
-            background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity, 1)) !important;
-            color: #fff !important;
-        }
-
-        .login-body .badge.bg-success {
-            background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity, 1)) !important;
-            color: #fff !important;
-        }
-
-        .login-body .badge.bg-danger {
-            background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity, 1)) !important;
-            color: #fff !important;
-        }
-
-        .login-body .badge.bg-warning {
-            background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity, 1)) !important;
-            color: #fff !important;
-        }
-
-        .pin-input.success {
-            background-color: #d1fae5 !important;
-            border-color: #10b981 !important;
-            color: #065f46 !important;
-            box-shadow: none !important;
-        }
-
-        .pin-input.error {
-            background-color: #fee2e2 !important;
-            border-color: #ef4444 !important;
-            color: #991b1b !important;
-            box-shadow: none !important;
-        }
-    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -324,7 +400,7 @@
                         b.style.color = 'inherit';
                     });
                     this.classList.add('active');
-                    this.style.backgroundColor = '#ff7a2a';
+                    this.style.backgroundColor = '{{ config('services.theme.color') }}';
                     this.style.color = '#fff';
                     authMethodInput.value = method;
 
@@ -360,7 +436,7 @@
             // Trigger click on active to set initial color
             const activeBtn = document.querySelector('.auth-method-btn.active');
             if (activeBtn) {
-                activeBtn.style.backgroundColor = '#ff7a2a';
+                activeBtn.style.backgroundColor = '{{ config('services.theme.color') }}';
                 activeBtn.style.color = '#fff';
             }
 

@@ -7,12 +7,15 @@ SEQUENCE APP SIDEBAR - Clean Template
             <a href="{{ route('dashboard') }}">
                 {{-- Full logo - shown when sidebar is expanded --}}
                 <div class="logo-full d-flex align-items-center gap-2">
-                    <img src="{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}"
-                        alt="Logo" style="height: 32px;"> {{-- Adjust height as needed --}}
+                    <div
+                        style="width: 32px; height: 32px; background-color: {{ config('services.theme.color') }}; -webkit-mask: url('{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}') no-repeat center; mask: url('{{ asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg') }}') no-repeat center; -webkit-mask-size: contain; mask-size: contain;">
+                    </div>
                     <span class="fw-bold text-dark" style="font-size: 26px; letter-spacing: 0.5px;">Sequence</span>
                 </div>
                 {{-- Minimized logo - shown when sidebar is collapsed --}}
-                <img src="{{ asset('assets/images/icons/logo.svg') }}" alt="Logo" class="logo-mini">
+                <div class="logo-mini"
+                    style="width: 32px; height: 32px; margin: 0 auto; background-color: {{ config('services.theme.color') }}; -webkit-mask: url('{{ asset('assets/images/icons/logo.svg') }}') no-repeat center; mask: url('{{ asset('assets/images/icons/logo.svg') }}') no-repeat center; -webkit-mask-size: contain; mask-size: contain;">
+                </div>
             </a>
             <button class="close-btn" id="sidebarCloseBtn"><i class="fas fa-times"></i></button>
         </div>
@@ -136,7 +139,9 @@ SEQUENCE APP SIDEBAR - Clean Template
     }
 
     #global-overlay .overlay-card {
-        background: #ff7a2a;
+        background:
+            {{ config('services.theme.color') }}
+        ;
         color: #fff;
         padding: 10px 16px;
         border-radius: 12px;

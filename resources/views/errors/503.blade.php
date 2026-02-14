@@ -19,6 +19,27 @@
     <!-- Icons -->
     <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
+    <style>
+        :root {
+            --theme-color:
+                {{ config('services.theme.color') }}
+            ;
+        }
+
+        .theme-logo-mask {
+            background-color: var(--theme-color);
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+
 </head>
 
 <body class="bg-white">
@@ -31,8 +52,15 @@
                     <div class="text-center">
                         <div class="mb-4 text-center">
                             <a href="/" class="auth-logo">
-                                <img src="{{ asset('/upload/25/08/1754301621-844.svg') }}" alt="logo-dark"
-                                    class="mx-auto" height="48" />
+                                @php
+                                    $logoUrl = asset(get_option('general')['login_page_logo'] ?? 'assets/images/icons/logo.svg');
+                                @endphp
+                                <div class="logo-wrapper"
+                                    style="width: 340px; max-width: 100%; height: 84px; margin: 0 auto;">
+                                    <div class="theme-logo-mask"
+                                        style="-webkit-mask-image: url('{{ $logoUrl }}'); mask-image: url('{{ $logoUrl }}');">
+                                    </div>
+                                </div>
                             </a>
                         </div>
 
@@ -52,7 +80,8 @@
                                 $homeUrl = route('dashboard');
                             }
                         @endphp
-                        <a class="btn btn-primary mt-3 me-1" style="background-color: #fd7e14; border-color: #fd7e14;"
+                        <a class="btn btn-primary mt-3 me-1"
+                            style="background-color: {{ config('services.theme.color') }}; border-color: {{ config('services.theme.color') }};"
                             href="{{ $homeUrl }}" id="backToHomeBtn">Back to Home</a>
                     </div>
 

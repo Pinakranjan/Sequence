@@ -192,7 +192,7 @@
 										if (rawRole === 'admin') { roleLabel = 'ADMIN'; roleClass = 'bg-success'; }
 										else if (rawRole === 'super admin' || rawRole === 'super_admin' || rawRole === 'superadmin') { roleLabel = 'SUPER ADMIN'; roleClass = 'bg-danger'; }
 										else if (rawRole === 'waiter') { roleLabel = 'WAITER'; roleClass = 'bg-info'; }
-										else if (rawRole === 'chef') { roleLabel = 'CHEF'; roleClass = 'bg-warning text-white'; roleStyle += 'background-color:#fc8019!important;color:#fff!important;'; }
+										else if (rawRole === 'chef') { roleLabel = 'CHEF'; roleClass = 'bg-warning text-white'; roleStyle += 'background-color:{{ config('services.theme.color') }}!important;color:#fff!important;'; }
 										var roleBadge = '<span class="badge ' + roleClass + ' text-uppercase" style="' + roleStyle + '">' + roleLabel + '</span>';
 										var business = (data && data.company_name) ? ((window.AppUtils && AppUtils.escapeHtml) ? AppUtils.escapeHtml(String(data.company_name)) : String(data.company_name)) : '';
 										// Active session icon with tooltip
@@ -2417,12 +2417,12 @@
 		#waiterSetupModal .form-check-input:checked,
 		#permissionModal .form-check-input:checked,
 		#permissionGrid .e-checkbox-wrapper .e-frame.e-check {
-			background-color: #ff7a2a !important;
-			border-color: #ff7a2a !important;
+						background-color: {{ config('services.theme.color') }} !important;
+						border-color: {{ config('services.theme.color') }} !important;
 		}
 
 		/* Orange text utility for Chef Setup button with assignments */
-		.text-orange { color: #ff7a2a !important; }
+			.text-orange { color: {{ config('services.theme.color') }} !important; }
 
 		/* Ensure all modal header icons are white on the orange background */
 		.modal-header i, 

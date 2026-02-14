@@ -1,5 +1,5 @@
 :root {
-    --clr-primary: #fc8019;
+    --clr-primary: var(--theme-color);
     --clr-white: #fff;
     --clr-white2: #f9f9f9;
     --clr-white3: #f3f7ff;
@@ -450,8 +450,8 @@
     left: auto;
 }
 [dir="rtl"] .form-check-input:checked {
-    background-color: #fc8019;
-    border-color: #fc8019;
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
 }
 [dir="rtl"] .table th {
     background-color: #f9f8f8;

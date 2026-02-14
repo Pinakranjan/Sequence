@@ -1,5 +1,5 @@
 :root {
-  --clr-primary: #fc8019;
+  --clr-primary: var(--theme-color);
   --clr-white: #fff;
   --clr-white2: #f9f9f9;
   --clr-white3: #f3f7ff;
@@ -579,7 +579,7 @@
 .dynamic-add-btn svg {
   width: 30px;
   height: 30px;
-  color: #fc8019;
+  color: var(--clr-primary);
 }
 
 .dynamic-delete-btn {
@@ -594,12 +594,12 @@
 .option-row .form-check-input {
   width: 18px;
   height: 18px;
-  border: 1px solid #fc8019;
-  accent-color: #fc8019 !important;
+  border: 1px solid var(--clr-primary);
+  accent-color: var(--clr-primary) !important;
 }
 
 .option-row .form-check-input:checked {
-  background-color: #fc8019;
+  background-color: var(--clr-primary);
 }
 
 .option-row .form-check-label {
