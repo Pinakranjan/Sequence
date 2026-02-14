@@ -46,7 +46,7 @@ return [
 
     // Theme customization
     'theme' => [
-        'color' => '#7c00cfff', //ff7a2a, 38b1c9ff, 7fae07ff
+        'color' => '#c78500ff', //ff7a2a, 38b1c9ff, 7fae07ff, 7c00cfff
     ],
 
     // Registration/business specific settings

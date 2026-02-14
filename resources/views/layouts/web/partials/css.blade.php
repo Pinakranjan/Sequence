@@ -2,7 +2,7 @@
 	$configuredFavicon = get_option('general')['favicon'] ?? null;
 	$faviconPath = ($configuredFavicon && file_exists(public_path($configuredFavicon)))
 		? $configuredFavicon
-		: 'frontend/assets/images/favicon.ico';
+		: 'favicon.svg';
 	$faviconVersion = file_exists(public_path($faviconPath)) ? filemtime(public_path($faviconPath)) : time();
 @endphp
 
@@ -29,8 +29,8 @@
 
 
 @if (app()->getLocale() == 'ar')
-<link rel="stylesheet" href="{{ asset('assets/web/css/arabic.css') }}?v={{ time() }}">
-<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.rtl.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/web/css/arabic.css') }}?v={{ time() }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.rtl.min.css') }}">
 @endif
 
 @stack('css')
