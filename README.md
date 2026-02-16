@@ -45,6 +45,7 @@ MySQL database and restore it to another database
 5. php artisan optimize:clear
 6. Use Antigravity Browser Control to handle this issue
 7. /Users/pinakranjansahoo/.gemini/antigravity/browser_recordings
+8. http://127.0.0.1:9000/api/documentation
 
 php artisan migrate:fresh --seed. (THI IS VERY DESTRUCTIVE COMMAND ONLY USE IT
 WHEN YOU ARE SURE)

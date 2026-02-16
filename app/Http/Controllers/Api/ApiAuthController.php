@@ -16,7 +16,36 @@ use App\Mail\VerificationCodeMail;
 class ApiAuthController extends Controller
 {
     /**
-     * Step 1: Validate email and return user preview info.
+     * @OA\Post(
+     *     path="/api/auth/validate-email",
+     *     summary="Validate email and return user preview info",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="role", type="string"),
+     *                 @OA\Property(property="photo_url", type="string", nullable=true),
+     *                 @OA\Property(property="has_pin_enabled", type="boolean")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error or user not found"
+     *     )
+     * )
      */
     public function validateEmail(Request $request): JsonResponse
     {
@@ -56,7 +85,41 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Step 2: Login with email + password OR pin.
+     * @OA\Post(
+     *     path="/api/auth/login",
+     *     summary="Login with email + password OR pin",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="auth_method", type="string", enum={"password", "pin"}, example="password"),
+     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="pin", type="string", example="1234")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="token", type="string"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="role", type="string"),
+     *                 @OA\Property(property="photo_url", type="string", nullable=true),
+     *                 @OA\Property(property="has_pin_enabled", type="boolean")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error or invalid credentials"
+     *     )
+     * )
      */
     public function login(Request $request): JsonResponse
     {
@@ -134,7 +197,42 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Register a new user.
+     * @OA\Post(
+     *     path="/api/auth/register",
+     *     summary="Register a new user",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "email", "password", "password_confirmation", "company_code"},
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password"),
+     *             @OA\Property(property="password_confirmation", type="string", example="password"),
+     *             @OA\Property(property="company_code", type="string", example="ABC1234567")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User registered successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="token", type="string"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="role", type="string"),
+     *                 @OA\Property(property="photo_url", type="string", nullable=true),
+     *                 @OA\Property(property="has_pin_enabled", type="boolean")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error or business code issues"
+     *     )
+     * )
      */
     public function register(Request $request): JsonResponse
     {
@@ -209,7 +307,34 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Validate business code (AJAX).
+     * @OA\Post(
+     *     path="/api/auth/validate-business-code",
+     *     summary="Validate business code (AJAX)",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"company_code"},
+     *             @OA\Property(property="company_code", type="string", example="ABC1234567")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Code validated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="valid", type="boolean", example=true),
+     *             @OA\Property(property="type", type="string", example="business"),
+     *             @OA\Property(property="business", type="object",
+     *                 @OA\Property(property="name", type="string")
+     *             ),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Invalid business code"
+     *     )
+     * )
      */
     public function validateBusinessCode(Request $request): JsonResponse
     {
@@ -260,7 +385,30 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Forgot password – send reset code email.
+     * @OA\Post(
+     *     path="/api/auth/forgot-password",
+     *     summary="Send password reset code",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Reset code sent",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="User not found"
+     *     )
+     * )
      */
     public function forgotPassword(Request $request): JsonResponse
     {
@@ -295,7 +443,20 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Logout – revoke current token.
+     * @OA\Post(
+     *     path="/api/auth/logout",
+     *     summary="Logout and revoke token",
+     *     tags={"Auth"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logged out successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     )
+     * )
      */
     public function logout(Request $request): JsonResponse
     {
@@ -308,7 +469,27 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Get authenticated user info.
+     * @OA\Get(
+     *     path="/api/auth/user",
+     *     summary="Get authenticated user info",
+     *     tags={"Auth"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User details",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="role", type="string"),
+     *                 @OA\Property(property="photo_url", type="string", nullable=true),
+     *                 @OA\Property(property="has_pin_enabled", type="boolean")
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function user(Request $request): JsonResponse
     {
@@ -357,5 +538,76 @@ class ApiAuthController extends Controller
         }
 
         return null;
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/auth/unlock",
+     *     summary="Unlock session (verify credentials)",
+     *     tags={"Auth"},
+     *     security={{"sanctum":{}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"auth_method"},
+     *             @OA\Property(property="auth_method", type="string", enum={"password", "pin"}, example="pin"),
+     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="pin", type="string", example="1234")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Session unlocked",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Invalid credentials or PIN disabled"
+     *     )
+     * )
+     */
+    public function unlock(Request $request): JsonResponse
+    {
+        $request->validate([
+            'auth_method' => ['required', 'string', 'in:password,pin'],
+        ]);
+
+        $user = $request->user();
+        $authMethod = $request->input('auth_method');
+
+        if ($authMethod === 'pin') {
+            $request->validate(['pin' => ['required', 'digits:4']]);
+
+            if (!$user->pin || !$user->pin_enabled) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'PIN login is not available for this account.',
+                ], 422);
+            }
+
+            if (!Hash::check($request->pin, $user->pin)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid PIN. Please try again.',
+                ], 422);
+            }
+        } else {
+            $request->validate(['password' => ['required', 'string']]);
+
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid password. Please try again.',
+                ], 422);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Session unlocked successfully.',
+        ]);
     }
 }
