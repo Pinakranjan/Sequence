@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Services\LoginHistoryService;
+use App\Services\AuthTokenService;
 use App\Models\Utility\Business;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +24,10 @@ use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
 {
-    public function __construct(private readonly LoginHistoryService $history)
+    public function __construct(
+        private readonly LoginHistoryService $history,
+        private readonly AuthTokenService $authTokenService
+    )
     {
     }
     public function AdminLogout(Request $request)
@@ -144,6 +148,10 @@ class AdminController extends Controller
                     $this->history->startSession($user, $request);
                 } catch (\Throwable $e) {
                 }
+                try {
+                    $this->authTokenService->revokeAll($user);
+                } catch (\Throwable $e) {
+                }
                 $request->session()->forget(['verification_code', 'pending_registration']);
 
                 if ($request->ajax() || $request->wantsJson()) {
@@ -176,6 +184,10 @@ class AdminController extends Controller
                 // Start login history for this session
                 try {
                     $this->history->startSession($user, $request);
+                } catch (\Throwable $e) {
+                }
+                try {
+                    $this->authTokenService->revokeAll($user);
                 } catch (\Throwable $e) {
                 }
                 $request->session()->forget(['verification_code', 'user_id']);
@@ -510,6 +522,10 @@ class AdminController extends Controller
         // Start login history session after password reset
         try {
             $this->history->startSession($user, $request);
+        } catch (\Throwable $e) {
+        }
+        try {
+            $this->authTokenService->revokeAll($user);
         } catch (\Throwable $e) {
         }
 
@@ -1221,6 +1237,13 @@ class AdminController extends Controller
                 $this->history->startSession($user, $request);
             } catch (\Throwable $e) {
                 // Log failed history start but allow login
+            }
+
+            // Revoke API/mobile tokens so same user is logged out from Flutter.
+            try {
+                $this->authTokenService->revokeAll($user);
+            } catch (\Throwable $e) {
+                // Do not block web login if token revocation fails.
             }
 
             // Determine redirect based on role using centralized helper

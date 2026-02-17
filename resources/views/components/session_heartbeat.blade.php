@@ -9,7 +9,7 @@
             function writeToastAndRedirect(message, opts){
                 try {
                     var payload = Object.assign({
-                        message: message || 'Your session has ended. Please login again.',
+                        message: message || 'Your session has ended.<br>Please login again.',
                         type: 'error',
                         positionClass: 'toast-bottom-right',
                         timeout: 5000
@@ -30,15 +30,15 @@
                 .then(function(r){ return r.ok ? r.json() : { authenticated: false, redirect: '/login' }; })
                 .then(function(j){
                     if (!j || j.authenticated !== true) {
-                        writeToastAndRedirect('Your session has ended. Please login again.', { redirect: (j && j.redirect) ? j.redirect : '/login' });
+                        writeToastAndRedirect('Your session has ended.<br>Please login again.', { redirect: (j && j.redirect) ? j.redirect : '/login' });
                     }
                 })
                 .catch(function(){ /* ignore transient errors */ });
             }
 
-            // immediate check + 60s interval
+            // immediate check + 10s interval
             try { checkAuthHeartbeat(); } catch(_) {}
-            setInterval(checkAuthHeartbeat, 60000);
+            setInterval(checkAuthHeartbeat, 10000);
         } catch(_) {}
     })();
 </script>

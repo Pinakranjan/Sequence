@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 
 class AuthTokenService
 {
+    public function __construct(private readonly LoginHistoryService $loginHistoryService)
+    {
+    }
+
     public function issueTokenPair(User $user, Request $request, array $payload, bool $revokeAllExisting = false): array
     {
         $deviceUuid = strtolower(trim((string) ($payload['device_uuid'] ?? '')));
@@ -50,6 +54,12 @@ class AuthTokenService
                 'expires_at' => now()->addDays((int) config('auth_tokens.refresh_ttl_days', 7)),
                 'last_ip' => $request->ip(),
                 'last_user_agent' => $request->userAgent(),
+            ]);
+
+            $this->loginHistoryService->startOrTouchApiSession($user, $request, $device->device_uuid, [
+                'platform' => $payload['platform'] ?? null,
+                'device_name' => $payload['device_name'] ?? null,
+                'app_version' => $payload['app_version'] ?? null,
             ]);
 
             return [
@@ -118,6 +128,8 @@ class AuthTokenService
                     'revoked_at' => now(),
                     'last_used_at' => now(),
                 ]);
+
+            $this->loginHistoryService->terminateActiveApiSessionsByUser((int) $user->id, 'REVOKED');
 
             UserDevice::where('user_id', $user->id)->delete();
         });

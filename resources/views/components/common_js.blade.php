@@ -1634,7 +1634,7 @@
                     if (typeof feather !== 'undefined') {
                         try { feather.replace(); } catch (_) { }
                     }
-                    // Heartbeat: check session liveness every 60s
+                    // Heartbeat: check session liveness every 10s
                     try {
                         if (!window.__sessionHeartbeatAttached) {
                             window.__sessionHeartbeatAttached = true;
@@ -1653,7 +1653,7 @@
                                             window.__sessionEnded = true;
                                             try {
                                                 var payload = {
-                                                    message: 'Your session has ended. Please login again.',
+                                                    message: 'Your session has ended.<br>Please login again.',
                                                     type: 'error',
                                                     positionClass: 'toast-bottom-right',
                                                     timeout: 5000
@@ -1669,7 +1669,7 @@
 
                             // Perform an immediate check, then schedule subsequent checks
                             try { checkAuthHeartbeat(); } catch (_) { }
-                            setInterval(checkAuthHeartbeat, 60000);
+                            setInterval(checkAuthHeartbeat, 10000);
                         }
                     } catch (_) { }
 

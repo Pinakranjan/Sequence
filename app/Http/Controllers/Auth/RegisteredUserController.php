@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\AuthTokenService;
+use App\Services\LoginHistoryService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +16,12 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    public function __construct(
+        private readonly LoginHistoryService $history,
+        private readonly AuthTokenService $authTokenService
+    ) {
+    }
+
     /**
      * Display the registration view.
      */
@@ -44,6 +52,9 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        $this->history->startSession($user, $request);
+        $this->authTokenService->revokeAll($user);
 
         return redirect(route('dashboard', absolute: false));
     }

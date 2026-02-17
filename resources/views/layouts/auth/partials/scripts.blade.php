@@ -38,6 +38,22 @@
 <script>
     // Focus the first invalid input on auth pages (global helper)
     document.addEventListener('DOMContentLoaded', function () {
+        // Consume delayed toast payload persisted before redirect (e.g. forced logout)
+        try {
+            var persistedToast = localStorage.getItem('toast-next');
+            if (persistedToast) {
+                localStorage.removeItem('toast-next');
+                var payload = JSON.parse(persistedToast);
+                setTimeout(function () {
+                    try {
+                        var type = (payload && payload.type) ? payload.type : 'error';
+                        var message = (payload && payload.message) ? payload.message : 'Your session has ended. Please login again.';
+                        Notify(type, null, message);
+                    } catch (_) {}
+                }, 250);
+            }
+        } catch (_) {}
+
         try {
             var firstInvalid = document.querySelector('.mybazar-login-section .is-invalid, .mybazar-login-section .invalid, .mybazar-login-section input.error');
             if (firstInvalid instanceof HTMLElement) {

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\AuthTokenService;
+use App\Services\LoginHistoryService;
 use App\Models\User;
+use App\Models\RefreshToken;
 use App\Models\Utility\Business;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +16,10 @@ use Illuminate\Validation\Rules\Password as ValidationPassword;
 
 class ApiAuthController extends Controller
 {
-    public function __construct(private readonly AuthTokenService $authTokenService)
+    public function __construct(
+        private readonly AuthTokenService $authTokenService,
+        private readonly LoginHistoryService $loginHistoryService
+    )
     {
     }
 
@@ -191,6 +196,9 @@ class ApiAuthController extends Controller
                 ], 422);
             }
         }
+
+        // API (Flutter) login should invalidate any active web sessions for the same user.
+        $this->loginHistoryService->terminateActiveSessionsByUser((int) $user->id, 'API LOGIN');
 
         $tokenPair = $this->authTokenService->issueTokenPair(
             $user,
@@ -478,7 +486,10 @@ class ApiAuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $this->authTokenService->revokeAll($request->user());
+        $user = $request->user();
+
+        $this->loginHistoryService->terminateActiveSessionsByUser((int) $user->id, 'LOGGED OUT');
+        $this->authTokenService->revokeAll($user);
 
         return response()->json([
             'success' => true,
@@ -532,9 +543,20 @@ class ApiAuthController extends Controller
         );
 
         if (!$tokenPair) {
+            $reason = $this->resolveRefreshFailureReason(
+                (string) $validated['refresh_token'],
+                strtolower(trim((string) $validated['device_uuid']))
+            );
+
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid or expired refresh token.',
+                'reason' => $reason,
+                'message' => match ($reason) {
+                    'SESSION_REVOKED' => 'Session revoked. Please login again.',
+                    'REFRESH_TOKEN_EXPIRED' => 'Session expired. Please login again.',
+                    'DEVICE_MISMATCH' => 'Session is not valid for this device.',
+                    default => 'Invalid or expired refresh token.',
+                },
             ], 401);
         }
 
@@ -542,6 +564,33 @@ class ApiAuthController extends Controller
             'success' => true,
             ...$tokenPair,
         ]);
+    }
+
+    protected function resolveRefreshFailureReason(string $plainRefreshToken, string $deviceUuid): string
+    {
+        $tokenHash = hash('sha256', $plainRefreshToken);
+
+        $refreshToken = RefreshToken::with('device')
+            ->where('token_hash', $tokenHash)
+            ->first();
+
+        if (!$refreshToken) {
+            return 'INVALID_REFRESH_TOKEN';
+        }
+
+        if ($refreshToken->revoked_at !== null) {
+            return 'SESSION_REVOKED';
+        }
+
+        if ($refreshToken->expires_at !== null && $refreshToken->expires_at->isPast()) {
+            return 'REFRESH_TOKEN_EXPIRED';
+        }
+
+        if (!$refreshToken->device || strtolower((string) $refreshToken->device->device_uuid) !== $deviceUuid) {
+            return 'DEVICE_MISMATCH';
+        }
+
+        return 'INVALID_REFRESH_TOKEN';
     }
 
     /**

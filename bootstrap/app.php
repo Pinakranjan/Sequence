@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('web', \App\Http\Middleware\EnsureSessionLocked::class);
         // Track last activity and enforce single active session per user
         $middleware->appendToGroup('web', \App\Http\Middleware\TrackUserSessionActivity::class);
+        // Track API token session activity for mobile app sessions
+        $middleware->appendToGroup('api', \App\Http\Middleware\TrackApiSessionActivity::class);
 
         // Alias for role-based page access (used on protected admin/utility routes)
         $middleware->alias([
