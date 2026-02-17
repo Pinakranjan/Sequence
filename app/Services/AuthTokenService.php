@@ -134,4 +134,36 @@ class AuthTokenService
             UserDevice::where('user_id', $user->id)->delete();
         });
     }
+
+    public function revokeDeviceSession(User $user, string $deviceUuid, string $reason = 'SESSION.REVOKED'): void
+    {
+        $deviceUuid = strtolower(trim($deviceUuid));
+        if ($deviceUuid === '') {
+            return;
+        }
+
+        DB::transaction(function () use ($user, $deviceUuid, $reason) {
+            $tokenName = 'mobile-app:' . $deviceUuid;
+            $user->tokens()->where('name', $tokenName)->delete();
+
+            $device = UserDevice::query()
+                ->where('user_id', $user->id)
+                ->where('device_uuid', $deviceUuid)
+                ->first();
+
+            if ($device) {
+                RefreshToken::where('user_id', $user->id)
+                    ->where('user_device_id', $device->id)
+                    ->whereNull('revoked_at')
+                    ->update([
+                        'revoked_at' => now(),
+                        'last_used_at' => now(),
+                    ]);
+
+                $device->delete();
+            }
+
+            $this->loginHistoryService->endApiSessionByDevice($user, $deviceUuid, $reason);
+        });
+    }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Models\Utility\UserLoginRegister;
+use App\Services\AuthTokenService;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,10 @@ use Throwable;
 
 class UserController extends Controller
 {
+    public function __construct(private readonly AuthTokenService $authTokenService)
+    {
+    }
+
     public function AllUsers()
     {
         return view('admin.utility.user.get_users');
@@ -529,6 +534,17 @@ class UserController extends Controller
             $row->session_end_type = 'SESSION.REVOKED';
             $row->logout_time = now()->toDateTimeString();
             $row->save();
+
+            // If this is a Flutter/API session (api:<device_uuid>), revoke tokens so user is forced out.
+            if (Str::startsWith((string) $data['session_id'], 'api:')) {
+                $deviceUuid = (string) Str::after((string) $data['session_id'], 'api:');
+                if ($deviceUuid !== '') {
+                    $targetUser = User::find((int) $data['user_id']);
+                    if ($targetUser) {
+                        $this->authTokenService->revokeDeviceSession($targetUser, $deviceUuid, 'SESSION.REVOKED');
+                    }
+                }
+            }
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,

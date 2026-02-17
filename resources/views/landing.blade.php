@@ -5,6 +5,7 @@
 @endsection
 
 @section('main_content')
+    @php($themeColor = app('config')->get('services.theme.color', '#c78500ff'))
     {{-- Top Navigation Bar --}}
     <nav class="landing-nav">
         <div class="landing-nav__inner">
@@ -118,7 +119,7 @@
                         </svg>
                     </div>
                     <h3>Fleet Dashboard</h3>
-                    <p>Real-time overview of all vehicles, drivers, and active routes with live status tracking.</p>
+                    <p>Real-time overview of your entire fleet in one intuitive dashboard.</p>
                 </div>
                 <div class="landing-feature-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="landing-feature-card__icon">
@@ -129,31 +130,6 @@
                     </div>
                     <h3>Smart Sequencing</h3>
                     <p>Automatically optimize vehicle dispatch order based on priority, distance, and load capacity.</p>
-                </div>
-                <div class="landing-feature-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="landing-feature-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" />
-                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                    </div>
-                    <h3>Multi-tenant</h3>
-                    <p>Manage multiple businesses, branches and user roles from a single centralized platform.</p>
-                </div>
-                <div class="landing-feature-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="landing-feature-card__icon">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
-                                stroke="currentColor" stroke-width="2" />
-                            <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <h3>Compliance Ready</h3>
-                    <p>Built-in audit trails, role-based permissions, and business compliance tools out of the box.</p>
                 </div>
             </div>
         </div>
@@ -218,9 +194,7 @@
         .landing-nav__logo-icon {
             width: 32px;
             height: 32px;
-            color:
-                {{ config('services.theme.color') }}
-            ;
+            color: {{ $themeColor }};
             display: flex;
             align-items: center;
             justify-content: center;
@@ -261,20 +235,20 @@
 
         .landing-btn--primary {
             background: linear-gradient(135deg,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                     ,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                 );
             color: #fff;
             box-shadow: 0 4px 15px
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 40;
         }
 
         .landing-btn--primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 59;
             color: #fff;
         }
@@ -333,7 +307,7 @@
             inset: 0;
             background:
                 radial-gradient(ellipse 60% 50% at 50% 0%,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                     14 0%, transparent 60%),
                 radial-gradient(ellipse 40% 40% at 80% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
                 radial-gradient(ellipse 40% 40% at 20% 60%, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
@@ -361,16 +335,16 @@
             gap: 8px;
             padding: 6px 16px 6px 10px;
             background:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 14;
             border: 1px solid
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 26;
             border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 600;
             color:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
             ;
             margin-bottom: 24px;
             text-transform: uppercase;
@@ -382,10 +356,10 @@
             height: 8px;
             border-radius: 50%;
             background:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
             ;
             box-shadow: 0 0 8px
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 66;
             animation: pulse-dot 2s ease-in-out infinite;
         }
@@ -415,9 +389,9 @@
 
         .landing-hero__highlight {
             background: linear-gradient(135deg,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                     ,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                 );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -466,7 +440,7 @@
         .landing-stat-card:hover {
             background: rgba(255, 255, 255, 0.95);
             border-color:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 1a;
             transform: translateY(-4px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
@@ -498,10 +472,10 @@
 
         .landing-stat-card__icon--orange {
             background:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 1a;
             color:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
             ;
         }
 
@@ -565,7 +539,7 @@
         .landing-feature-card:hover {
             background: #fff;
             border-color:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
                 33;
             transform: translateY(-6px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
@@ -576,9 +550,9 @@
             height: 52px;
             border-radius: 14px;
             background: linear-gradient(135deg,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                     1a,
-                    {{ config('services.theme.color') }}
+                    {{ $themeColor }}
                     0d);
             display: flex;
             align-items: center;
@@ -590,7 +564,7 @@
             width: 24px;
             height: 24px;
             color:
-                {{ config('services.theme.color') }}
+                {{ $themeColor }}
             ;
         }
 
