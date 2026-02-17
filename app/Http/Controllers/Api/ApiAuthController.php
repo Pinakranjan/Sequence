@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AuthTokenService;
 use App\Models\User;
 use App\Models\Utility\Business;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Validation\Rules\Password;
-use App\Mail\VerificationCodeMail;
+use Illuminate\Support\Facades\Password as PasswordFacade;
+use Illuminate\Validation\Rules\Password as ValidationPassword;
 
 class ApiAuthController extends Controller
 {
+    public function __construct(private readonly AuthTokenService $authTokenService)
+    {
+    }
+
     /**
      * @OA\Post(
      *     path="/api/auth/validate-email",
@@ -94,9 +97,13 @@ class ApiAuthController extends Controller
      *         @OA\JsonContent(
      *             required={"email"},
      *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
-     *             @OA\Property(property="auth_method", type="string", enum={"password", "pin"}, example="password"),
+    *             @OA\Property(property="auth_method", type="string", enum={"password", "pin"}, example="password"),
      *             @OA\Property(property="password", type="string", example="password"),
-     *             @OA\Property(property="pin", type="string", example="1234")
+    *             @OA\Property(property="pin", type="string", example="1234"),
+    *             @OA\Property(property="device_uuid", type="string", example="flutter-device-001"),
+    *             @OA\Property(property="platform", type="string", example="android"),
+    *             @OA\Property(property="device_name", type="string", example="Pixel 8"),
+    *             @OA\Property(property="app_version", type="string", example="1.0.0")
      *         )
      *     ),
      *     @OA\Response(
@@ -104,7 +111,12 @@ class ApiAuthController extends Controller
      *         description="Login successful",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="token", type="string"),
+    *             @OA\Property(property="token_type", type="string", example="Bearer"),
+    *             @OA\Property(property="access_token", type="string"),
+    *             @OA\Property(property="access_token_expires_at", type="string", format="date-time"),
+    *             @OA\Property(property="refresh_token", type="string"),
+    *             @OA\Property(property="refresh_token_expires_at", type="string", format="date-time"),
+    *             @OA\Property(property="device_uuid", type="string"),
      *             @OA\Property(property="user", type="object",
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
@@ -126,6 +138,10 @@ class ApiAuthController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'auth_method' => ['sometimes', 'string', 'in:password,pin'],
+            'device_uuid' => ['required', 'string', 'max:191'],
+            'platform' => ['nullable', 'string', 'max:50'],
+            'device_name' => ['nullable', 'string', 'max:255'],
+            'app_version' => ['nullable', 'string', 'max:50'],
         ]);
 
         $email = strtolower(trim($request->email));
@@ -176,15 +192,16 @@ class ApiAuthController extends Controller
             }
         }
 
-        // Revoke existing mobile tokens
-        $user->tokens()->where('name', 'mobile-app')->delete();
-
-        // Create new token
-        $token = $user->createToken('mobile-app')->plainTextToken;
+        $tokenPair = $this->authTokenService->issueTokenPair(
+            $user,
+            $request,
+            $this->devicePayload($request),
+            true
+        );
 
         return response()->json([
             'success' => true,
-            'token' => $token,
+            ...$tokenPair,
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -208,8 +225,12 @@ class ApiAuthController extends Controller
      *             @OA\Property(property="name", type="string", example="John Doe"),
      *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
      *             @OA\Property(property="password", type="string", format="password", example="password"),
-     *             @OA\Property(property="password_confirmation", type="string", example="password"),
-     *             @OA\Property(property="company_code", type="string", example="ABC1234567")
+    *             @OA\Property(property="password_confirmation", type="string", example="password"),
+    *             @OA\Property(property="company_code", type="string", example="ABC1234567"),
+    *             @OA\Property(property="device_uuid", type="string", example="flutter-device-001"),
+    *             @OA\Property(property="platform", type="string", example="ios"),
+    *             @OA\Property(property="device_name", type="string", example="iPhone 15"),
+    *             @OA\Property(property="app_version", type="string", example="1.0.0")
      *         )
      *     ),
      *     @OA\Response(
@@ -217,7 +238,12 @@ class ApiAuthController extends Controller
      *         description="User registered successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="token", type="string"),
+    *             @OA\Property(property="token_type", type="string", example="Bearer"),
+    *             @OA\Property(property="access_token", type="string"),
+    *             @OA\Property(property="access_token_expires_at", type="string", format="date-time"),
+    *             @OA\Property(property="refresh_token", type="string"),
+    *             @OA\Property(property="refresh_token_expires_at", type="string", format="date-time"),
+    *             @OA\Property(property="device_uuid", type="string"),
      *             @OA\Property(property="user", type="object",
      *                 @OA\Property(property="id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
@@ -239,8 +265,12 @@ class ApiAuthController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', ValidationPassword::defaults()],
             'company_code' => ['required', 'string', 'size:10'],
+            'device_uuid' => ['required', 'string', 'max:191'],
+            'platform' => ['nullable', 'string', 'max:50'],
+            'device_name' => ['nullable', 'string', 'max:255'],
+            'app_version' => ['nullable', 'string', 'max:50'],
         ]);
 
         $code = strtoupper(trim($validated['company_code']));
@@ -290,11 +320,16 @@ class ApiAuthController extends Controller
             'status' => '1',
         ]);
 
-        $token = $user->createToken('mobile-app')->plainTextToken;
+        $tokenPair = $this->authTokenService->issueTokenPair(
+            $user,
+            $request,
+            $this->devicePayload($request),
+            true
+        );
 
         return response()->json([
             'success' => true,
-            'token' => $token,
+            ...$tokenPair,
             'user' => [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -387,7 +422,7 @@ class ApiAuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/auth/forgot-password",
-     *     summary="Send password reset code",
+    *     summary="Send password reset link",
      *     tags={"Auth"},
      *     @OA\RequestBody(
      *         required=true,
@@ -398,7 +433,7 @@ class ApiAuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Reset code sent",
+    *         description="Reset link processed",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
      *             @OA\Property(property="message", type="string")
@@ -406,7 +441,7 @@ class ApiAuthController extends Controller
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="User not found"
+    *         description="Validation error"
      *     )
      * )
      */
@@ -417,35 +452,18 @@ class ApiAuthController extends Controller
         ]);
 
         $email = strtolower(trim($request->email));
-        $user = User::where('email', $email)->first();
-
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'We could not find an account with that email address.',
-            ], 422);
-        }
-
-        // Generate and cache verification code
-        $code = rand(100000, 999999);
-        Cache::put('password_reset_code_' . $email, $code, now()->addMinutes(15));
-
-        try {
-            Mail::to($email)->send(new VerificationCodeMail($code));
-        } catch (\Throwable $e) {
-            // Continue in dev
-        }
+        PasswordFacade::sendResetLink(['email' => $email]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Reset code sent to your email.',
+            'message' => 'If your email exists in our records, a password reset link has been sent.',
         ]);
     }
 
     /**
      * @OA\Post(
      *     path="/api/auth/logout",
-     *     summary="Logout and revoke token",
+    *     summary="Logout from all devices and revoke all tokens",
      *     tags={"Auth"},
      *     security={{"sanctum":{}}},
      *     @OA\Response(
@@ -460,11 +478,69 @@ class ApiAuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        $this->authTokenService->revokeAll($request->user());
 
         return response()->json([
             'success' => true,
-            'message' => 'Logged out successfully.',
+            'message' => 'Logged out from all devices successfully.',
+        ]);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/auth/refresh",
+     *     summary="Refresh access token using refresh token",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"refresh_token", "device_uuid"},
+     *             @OA\Property(property="refresh_token", type="string"),
+     *             @OA\Property(property="device_uuid", type="string", example="flutter-device-001")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token pair rotated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="token_type", type="string", example="Bearer"),
+     *             @OA\Property(property="access_token", type="string"),
+     *             @OA\Property(property="access_token_expires_at", type="string", format="date-time"),
+     *             @OA\Property(property="refresh_token", type="string"),
+     *             @OA\Property(property="refresh_token_expires_at", type="string", format="date-time"),
+     *             @OA\Property(property="device_uuid", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid or expired refresh token"
+     *     )
+     * )
+     */
+    public function refresh(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'refresh_token' => ['required', 'string'],
+            'device_uuid' => ['required', 'string', 'max:191'],
+        ]);
+
+        $tokenPair = $this->authTokenService->rotateRefreshToken(
+            $request,
+            strtolower(trim($validated['device_uuid'])),
+            $validated['refresh_token']
+        );
+
+        if (!$tokenPair) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid or expired refresh token.',
+            ], 401);
+        }
+
+        return response()->json([
+            'success' => true,
+            ...$tokenPair,
         ]);
     }
 
@@ -609,5 +685,15 @@ class ApiAuthController extends Controller
             'success' => true,
             'message' => 'Session unlocked successfully.',
         ]);
+    }
+
+    protected function devicePayload(Request $request): array
+    {
+        return [
+            'device_uuid' => strtolower(trim((string) $request->input('device_uuid'))),
+            'platform' => $request->input('platform'),
+            'device_name' => $request->input('device_name'),
+            'app_version' => $request->input('app_version'),
+        ];
     }
 }

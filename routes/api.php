@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Route;
 
 // Public auth routes (no token required)
 Route::prefix('auth')->group(function () {
-    Route::post('/validate-email', [ApiAuthController::class, 'validateEmail']);
-    Route::post('/login', [ApiAuthController::class, 'login']);
-    Route::post('/register', [ApiAuthController::class, 'register']);
-    Route::post('/forgot-password', [ApiAuthController::class, 'forgotPassword']);
+    Route::post('/validate-email', [ApiAuthController::class, 'validateEmail'])->middleware('throttle:auth-email-check');
+    Route::post('/login', [ApiAuthController::class, 'login'])->middleware('throttle:auth-login');
+    Route::post('/register', [ApiAuthController::class, 'register'])->middleware('throttle:auth-register');
+    Route::post('/forgot-password', [ApiAuthController::class, 'forgotPassword'])->middleware('throttle:auth-forgot-password');
     Route::post('/validate-business-code', [ApiAuthController::class, 'validateBusinessCode']);
+    Route::post('/refresh', [ApiAuthController::class, 'refresh'])->middleware('throttle:auth-refresh');
 });
 
 // Protected routes (token required)

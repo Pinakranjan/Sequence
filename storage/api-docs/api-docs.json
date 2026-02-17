@@ -126,6 +126,22 @@
                                     "pin": {
                                         "type": "string",
                                         "example": "1234"
+                                    },
+                                    "device_uuid": {
+                                        "type": "string",
+                                        "example": "flutter-device-001"
+                                    },
+                                    "platform": {
+                                        "type": "string",
+                                        "example": "android"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "Pixel 8"
+                                    },
+                                    "app_version": {
+                                        "type": "string",
+                                        "example": "1.0.0"
                                     }
                                 },
                                 "type": "object"
@@ -144,7 +160,25 @@
                                             "type": "boolean",
                                             "example": true
                                         },
-                                        "token": {
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "access_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "device_uuid": {
                                             "type": "string"
                                         },
                                         "user": {
@@ -224,6 +258,22 @@
                                     "company_code": {
                                         "type": "string",
                                         "example": "ABC1234567"
+                                    },
+                                    "device_uuid": {
+                                        "type": "string",
+                                        "example": "flutter-device-001"
+                                    },
+                                    "platform": {
+                                        "type": "string",
+                                        "example": "ios"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "iPhone 15"
+                                    },
+                                    "app_version": {
+                                        "type": "string",
+                                        "example": "1.0.0"
                                     }
                                 },
                                 "type": "object"
@@ -242,7 +292,25 @@
                                             "type": "boolean",
                                             "example": true
                                         },
-                                        "token": {
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "access_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "device_uuid": {
                                             "type": "string"
                                         },
                                         "user": {
@@ -350,7 +418,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Send password reset code",
+                "summary": "Send password reset link",
                 "operationId": "94476697e0fa7d2494de30ce05a3967c",
                 "requestBody": {
                     "required": true,
@@ -374,7 +442,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Reset code sent",
+                        "description": "Reset link processed",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -393,7 +461,7 @@
                         }
                     },
                     "422": {
-                        "description": "User not found"
+                        "description": "Validation error"
                     }
                 }
             }
@@ -403,7 +471,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Logout and revoke token",
+                "summary": "Logout from all devices and revoke all tokens",
                 "operationId": "c307e1ba7f866da611b3fff937f12b11",
                 "responses": {
                     "200": {
@@ -431,6 +499,80 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh access token using refresh token",
+                "operationId": "8fe3108e87f20013f356031c4f52f4a0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "refresh_token",
+                                    "device_uuid"
+                                ],
+                                "properties": {
+                                    "refresh_token": {
+                                        "type": "string"
+                                    },
+                                    "device_uuid": {
+                                        "type": "string",
+                                        "example": "flutter-device-001"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token pair rotated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "access_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token_expires_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "device_uuid": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired refresh token"
+                    }
+                }
             }
         },
         "/api/auth/user": {
