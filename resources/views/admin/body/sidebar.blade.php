@@ -83,6 +83,59 @@ SEQUENCE APP SIDEBAR - Clean Template
                         </ul>
                     </li>
                 @endif
+
+                {{-- Master Menu --}}
+                @php
+                    // For admin roles, all master pages are accessible
+                    // For regular users, check form-level permissions
+                    $canProduct = $isAdminRole || \Illuminate\Support\Facades\DB::table('utility_user_permission_register')->where('user_id', $authUser?->id)->where('form_id', 1)->exists();
+                    $canCustomer = $isAdminRole || \Illuminate\Support\Facades\DB::table('utility_user_permission_register')->where('user_id', $authUser?->id)->where('form_id', 4)->exists();
+                    $canSupplier = $isAdminRole || \Illuminate\Support\Facades\DB::table('utility_user_permission_register')->where('user_id', $authUser?->id)->where('form_id', 2)->exists();
+                    $canTransporter = $isAdminRole || \Illuminate\Support\Facades\DB::table('utility_user_permission_register')->where('user_id', $authUser?->id)->where('form_id', 3)->exists();
+                    $canAnyMaster = $canProduct || $canCustomer || $canSupplier || $canTransporter;
+                @endphp
+
+                @if($canAnyMaster)
+                    <li
+                        class="dropdown {{ request()->routeIs('product.master', 'customer.master', 'supplier.master', 'transporter.master') ? 'active' : '' }}">
+                        <a href="javascript:void(0);">
+                            <span class="sidebar-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6.66669 2.5H5.33335C3.49241 2.5 2.00002 3.99239 2.00002 5.83333V14.1667C2.00002 16.0076 3.49241 17.5 5.33335 17.5H14.6667C16.5076 17.5 18 16.0076 18 14.1667V5.83333C18 3.99239 16.5076 2.5 14.6667 2.5H13.3334"
+                                        stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+                                    <path d="M7.50002 9.16669H12.5M7.50002 12.5H10.8334" stroke="currentColor"
+                                        stroke-width="1.25" stroke-linecap="round" />
+                                    <path
+                                        d="M7.08335 2.5H12.9167C13.377 2.5 13.75 2.8731 13.75 3.33333V4.16667C13.75 4.6269 13.377 5 12.9167 5H7.08335C6.62312 5 6.25002 4.6269 6.25002 4.16667V3.33333C6.25002 2.8731 6.62312 2.5 7.08335 2.5Z"
+                                        stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+                                </svg></span>
+                            <span>Master</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if($canProduct)
+                                <li class="{{ request()->routeIs('product.master') ? 'active' : '' }}"><a
+                                        href="{{ route('product.master') }}"><span class="sidebar-icon"><i
+                                                class="fas fa-box-open"></i></span>Product Master</a></li>
+                            @endif
+                            @if($canCustomer)
+                                <li class="{{ request()->routeIs('customer.master') ? 'active' : '' }}"><a
+                                        href="{{ route('customer.master') }}"><span class="sidebar-icon"><i
+                                                class="fas fa-people-group"></i></span>Customer Master</a></li>
+                            @endif
+                            @if($canSupplier)
+                                <li class="{{ request()->routeIs('supplier.master') ? 'active' : '' }}"><a
+                                        href="{{ route('supplier.master') }}"><span class="sidebar-icon"><i
+                                                class="fas fa-truck-field"></i></span>Supplier Master</a></li>
+                            @endif
+                            @if($canTransporter)
+                                <li class="{{ request()->routeIs('transporter.master') ? 'active' : '' }}"><a
+                                        href="{{ route('transporter.master') }}"><span class="sidebar-icon"><i
+                                                class="fas fa-truck"></i></span>Transporter Master</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
 

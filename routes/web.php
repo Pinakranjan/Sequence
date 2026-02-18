@@ -8,6 +8,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Utility\BusinessController;
 use App\Http\Controllers\Utility\UserController;
 use App\Http\Controllers\Utility\BusinessTermsController;
+use App\Http\Controllers\Master\ProductController;
+use App\Http\Controllers\Master\CustomerController;
+use App\Http\Controllers\Master\SupplierController;
+use App\Http\Controllers\Master\TransporterController;
 
 
 Route::get('/', function () {
@@ -134,6 +138,43 @@ Route::middleware('auth')->group(function () {
             Route::post('/user/delete', 'DeleteUser')->name('delete.user');
             Route::get('/user/forms/list', 'ListUserForms')->name('list.user.forms');
             Route::post('/user/forms/save', 'SaveUserPermissions')->name('save.user.permissions');
+        });
+
+        // ── Master Module Routes ──────────────────────────────────────────
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('/products', 'index')->name('product.master');
+            Route::get('/products/list', 'ListProducts')->name('list.products');
+            Route::post('/product/create', 'AddProduct')->name('add.product');
+            Route::post('/product/update', 'UpdateProduct')->name('update.product');
+            Route::post('/product/delete', 'DeleteProduct')->name('delete.product');
+            Route::post('/product/set-active', 'SetActiveProduct')->name('setactive.product');
+        });
+
+        Route::controller(CustomerController::class)->group(function () {
+            Route::get('/customers', 'index')->name('customer.master');
+            Route::get('/customers/list', 'ListCustomers')->name('list.customers');
+            Route::post('/customer/create', 'AddCustomer')->name('add.customer');
+            Route::post('/customer/update', 'UpdateCustomer')->name('update.customer');
+            Route::post('/customer/delete', 'DeleteCustomer')->name('delete.customer');
+            Route::post('/customer/set-active', 'SetActiveCustomer')->name('setactive.customer');
+        });
+
+        Route::controller(SupplierController::class)->group(function () {
+            Route::get('/suppliers', 'index')->name('supplier.master');
+            Route::get('/suppliers/list', 'ListSuppliers')->name('list.suppliers');
+            Route::post('/supplier/create', 'AddSupplier')->name('add.supplier');
+            Route::post('/supplier/update', 'UpdateSupplier')->name('update.supplier');
+            Route::post('/supplier/delete', 'DeleteSupplier')->name('delete.supplier');
+            Route::post('/supplier/set-active', 'SetActiveSupplier')->name('setactive.supplier');
+        });
+
+        Route::controller(TransporterController::class)->group(function () {
+            Route::get('/transporters', 'index')->name('transporter.master');
+            Route::get('/transporters/list', 'ListTransporters')->name('list.transporters');
+            Route::post('/transporter/create', 'AddTransporter')->name('add.transporter');
+            Route::post('/transporter/update', 'UpdateTransporter')->name('update.transporter');
+            Route::post('/transporter/delete', 'DeleteTransporter')->name('delete.transporter');
+            Route::post('/transporter/set-active', 'SetActiveTransporter')->name('setactive.transporter');
         });
 
     });
